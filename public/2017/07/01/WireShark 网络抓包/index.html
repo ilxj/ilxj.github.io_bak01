@@ -1,0 +1,942 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="抓包工具,wireShark," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="WireShark入门一、 打开WireShark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WireShark网络抓包">
+<meta property="og:url" content="http://lxj-life.com/2017/07/01/WireShark 网络抓包/index.html">
+<meta property="og:site_name" content="AlexLin">
+<meta property="og:description" content="WireShark入门一、 打开WireShark">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/4224884og6inde3h2q5wcw6a/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/zrfd5f3v3q3o8bjdjay8oxc1/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/9i2ohkrz9yuzz9r9bl2e03uy/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/kyugitt8dt3gmr6giuztsm6d/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/5agc64rl32b44qhqvbj533ug/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/3eqzyyj3av3lr9a6kafu9xnx/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/sahnt2ey9phdwwclu1q4hnke/image.png">
+<meta property="og:image" content="http://static.zybuluo.com/AlexLin/gzzy5f4qh90wvu1992k61on7/image.png">
+<meta property="og:updated_time" content="2017-08-01T16:49:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WireShark网络抓包">
+<meta name="twitter:description" content="WireShark入门一、 打开WireShark">
+<meta name="twitter:image" content="http://static.zybuluo.com/AlexLin/4224884og6inde3h2q5wcw6a/image.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lxj-life.com/2017/07/01/WireShark 网络抓包/"/>
+
+
+
+
+
+  <title> WireShark网络抓包 | AlexLin </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?32bb077273d902ca71df67ccfe276208";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AlexLin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lxj-life.com/2017/07/01/WireShark 网络抓包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex.Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlexLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                WireShark网络抓包
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-01T19:19:11+08:00">
+                2017-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><hr>
+<h2 id="WireShark入门"><a href="#WireShark入门" class="headerlink" title="WireShark入门"></a>WireShark入门</h2><h3 id="一、-打开WireShark"><a href="#一、-打开WireShark" class="headerlink" title="一、 打开WireShark"></a>一、 打开WireShark</h3><p><img src="http://static.zybuluo.com/AlexLin/4224884og6inde3h2q5wcw6a/image.png" alt="WireShark启动界面"></p>
+<a id="more"></a>
+<h3 id="二、界面分区"><a href="#二、界面分区" class="headerlink" title="二、界面分区"></a>二、界面分区</h3><p><img src="http://static.zybuluo.com/AlexLin/zrfd5f3v3q3o8bjdjay8oxc1/image.png" alt="WireShark界面划分"></p>
+<h3 id="三、过滤规则语句"><a href="#三、过滤规则语句" class="headerlink" title="三、过滤规则语句"></a>三、过滤规则语句</h3><ul>
+<li><p>IP 过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ip.src eq 192.168.1.107 or ip.dst eq 192.168.1.107</div><div class="line">#或者</div><div class="line">ip.addr eq 192.168.1.107 // 都能显示来源IP和目标IP</div></pre></td></tr></table></figure>
+</li>
+<li><p>过滤端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">tcp.port eq 80 // 不管端口是来源的还是目标的都显示</div><div class="line">tcp.port == 80</div><div class="line">tcp.port eq 2722</div><div class="line">tcp.port eq 80 or udp.port eq 80</div><div class="line">tcp.dstport == 80 // 只显tcp协议的目标端口80</div><div class="line">tcp.srcport == 80 // 只显tcp协议的来源端口80</div><div class="line">#端口范围</div><div class="line">tcp.port &gt;= 1 and tcp.port &lt;= 80</div></pre></td></tr></table></figure>
+</li>
+<li><p>协议过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">tcp、udp、arp、icmp、http、smtp、ftp、dns、msnms、ip、ssl、oicq、bootp #等等.</div><div class="line">#排除</div><div class="line">#排除arp包</div><div class="line">!arp  或者  not arp</div></pre></td></tr></table></figure>
+</li>
+<li><p>mac 过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">eth.dst == A0:00:00:04:C5:84 //过滤目标mac</div><div class="line">eth.src eq A0:00:00:04:C5:84 //过滤来源mac</div><div class="line">eth.dst==A0:00:00:04:C5:84</div><div class="line">eth.dst==A0-00-00-04-C5-84</div><div class="line">eth.addr eq A0:00:00:04:C5:84 //过滤来源MAC和目标MAC都等于A0:00:00:04:C5:84的MAC</div></pre></td></tr></table></figure>
+</li>
+<li><p>数据包长度过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">udp.length == 26 #这个长度是指udp本身固定长度8加上udp下面那块数据包之和</div><div class="line">tcp.len &gt;= 7  #指的是ip数据包(tcp下面那块数据),不包括tcp本身</div><div class="line">ip.len == 94 #除了以太网头固定长度14,其它都算是ip.len,即从ip本身到最后</div><div class="line">frame.len == 119 #整个数据包长度,从eth开始到最后</div><div class="line">#数据包组成成员</div><div class="line">eth ---&gt; ip or arp ---&gt; tcp or udp ---&gt; data</div></pre></td></tr></table></figure>
+</li>
+<li><p>http模式过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">http.request.method == &quot;GET&quot;</div><div class="line">http.request.method == &quot;POST&quot;</div><div class="line">http.request.uri == &quot;/img/logo-edu.gif&quot;</div><div class="line">http contains &quot;GET&quot;</div><div class="line">http contains &quot;HTTP/1.&quot;</div><div class="line"></div><div class="line">// GET包</div><div class="line">http.request.method == &quot;GET&quot; &amp;&amp; http contains &quot;Host: &quot;</div><div class="line">http.request.method == &quot;GET&quot; &amp;&amp; http contains &quot;User-Agent: &quot;</div><div class="line">// POST包</div><div class="line">http.request.method == &quot;POST&quot; &amp;&amp; http contains &quot;Host: &quot;</div><div class="line">http.request.method == &quot;POST&quot; &amp;&amp; http contains &quot;User-Agent: &quot;</div><div class="line">// 响应包</div><div class="line">http contains &quot;HTTP/1.1 200 OK&quot; &amp;&amp; http contains &quot;Content-Type: &quot;</div><div class="line">http contains &quot;HTTP/1.0 200 OK&quot; &amp;&amp; http contains &quot;Content-Type: &quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>两种条件成立过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">过滤两种条件时，使用and连接，</div><div class="line">如过滤ip为192.168.101.8并且为http协议的，ip.src==192.168.101.8 and http。</div></pre></td></tr></table></figure>
+</li>
+<li><p>域名过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http.host == &quot;gizwits.com&quot;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="四、TCP包分析"><a href="#四、TCP包分析" class="headerlink" title="四、TCP包分析"></a>四、TCP包分析</h3><h4 id="一个TCP包由5部分组成分别是"><a href="#一个TCP包由5部分组成分别是" class="headerlink" title="一个TCP包由5部分组成分别是:"></a><strong>一个TCP包由5部分组成分别是:</strong></h4><ol>
+<li>Frame:   物理层的数据帧概况</li>
+<li>Ethernet II: 数据链路层以太网帧头部信息</li>
+<li>Internet Protocol Version 4: 互联网层IP包头部信息</li>
+<li>Transmission Control Protocol:  传输层T的数据段头部信息，此处是mqtt</li>
+<li>Hypertext Transfer Protocol/Data:  应用层的信息，此处是mqtt协议</li>
+</ol>
+<h4 id="与之对应的网络七层协议图如下"><a href="#与之对应的网络七层协议图如下" class="headerlink" title="与之对应的网络七层协议图如下"></a><strong>与之对应的网络七层协议图如下</strong></h4><p><img src="http://static.zybuluo.com/AlexLin/9i2ohkrz9yuzz9r9bl2e03uy/image.png" alt="tcp数据层"></p>
+<h4 id="OSI-参考模型与-TCP-IP分层模型"><a href="#OSI-参考模型与-TCP-IP分层模型" class="headerlink" title="OSI 参考模型与 TCP/IP分层模型"></a>OSI 参考模型与 TCP/IP分层模型</h4><p><img src="http://static.zybuluo.com/AlexLin/kyugitt8dt3gmr6giuztsm6d/image.png" alt="OSI 参考模型与 TCP/IP分层模型"></p>
+<h4 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a><strong>TCP 三次握手</strong></h4><p><strong>图片版本</strong><br><img src="http://static.zybuluo.com/AlexLin/5agc64rl32b44qhqvbj533ug/image.png" alt="TCP三次握手"></p>
+<h4 id="WireShark抓包分析图"><a href="#WireShark抓包分析图" class="headerlink" title="WireShark抓包分析图"></a><strong>WireShark抓包分析图</strong></h4><h5 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a><strong>第一次握手</strong></h5><p>代表客户端请求建立连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SEQ=0</div><div class="line">ACK=0</div><div class="line">FLAGS = 0x0002 （SYN）</div></pre></td></tr></table></figure></p>
+<p><strong>WireShark第一次TCP握手图</strong><br><img src="http://static.zybuluo.com/AlexLin/3eqzyyj3av3lr9a6kafu9xnx/image.png" alt="TCP 第一次握手"></p>
+<h5 id="第二次握手："><a href="#第二次握手：" class="headerlink" title="第二次握手："></a><strong>第二次握手：</strong></h5><p>服务器发回确认包, 标志位为 SYN,ACK. 将确认序号(Acknowledgement Number)设置为客户的SEQ加1以.即ACK=SEQ+1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SEQ = 0</div><div class="line">ACK = SEQ+1</div><div class="line">FLAGS = 0X0012（SYN +ACK）</div></pre></td></tr></table></figure></p>
+<p><strong>WireShark第二次TCP握手图</strong><br><img src="http://static.zybuluo.com/AlexLin/sahnt2ey9phdwwclu1q4hnke/image.png" alt="TCP 第二次握手"></p>
+<h5 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a><strong>第三次握手</strong></h5><p>客户端再次发送确认包(ACK) SYN标志位为0,ACK标志位为1.并且把服务器发来ACK的序号字段+1,放确在SEQ字段中发送给对方.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SEQ =SEQ+1</div><div class="line">ACK = 1;</div><div class="line">FLAGS = 0X0001（ACK）</div></pre></td></tr></table></figure></p>
+<p><img src="http://static.zybuluo.com/AlexLin/gzzy5f4qh90wvu1992k61on7/image.png" alt="TCP 第三次握手"></p>
+<h3 id="五、WireShark-抓包异常情况分析"><a href="#五、WireShark-抓包异常情况分析" class="headerlink" title="五、WireShark 抓包异常情况分析"></a>五、WireShark 抓包异常情况分析</h3><h4 id="1-tcp-out-of-order（tcp有问题）"><a href="#1-tcp-out-of-order（tcp有问题）" class="headerlink" title="1. tcp out-of-order（tcp有问题）"></a>1. <strong>tcp out-of-order</strong>（tcp有问题）</h4><blockquote>
+<p><strong>原因:</strong> 应该有很多原因。但是多半是网络拥塞，导致顺序包抵达时间不同，延时太长，或者包丢失，需要重新组合数据单元 因为他们可能是通过不同的路径到达你电脑上面的。</p>
+</blockquote>
+<h4 id="2-tcp-segment-of-a-reassembled-PDU"><a href="#2-tcp-segment-of-a-reassembled-PDU" class="headerlink" title="2. tcp segment of a reassembled PDU"></a>2. <strong>tcp segment of a reassembled PDU</strong></h4><blockquote>
+<p><strong>原因:</strong> 在连个连接建立的时候，SYN包里面会把彼此TCP最大的报文段长度，在局域网内一般都是<strong>1460</strong>.如果发送的包比最大的报文段长度长的话就要分片了，被分片出来的包，就会被标记了<strong>“TCP segment of a reassembled PDU”</strong>。TCP在发起连接的第一个报文的TCP头里通过MSS这个可选项告知对方本端能够接收的最大报文（当然，这个大小是TCP净荷的大小），以太网上这个值一般设置成1460，因为1460Byte净荷+20Byte TCP头+20Byte IP头 ＝ 1500字节，正好符合链路层最大报文的要求，被标记了的包的SEQ和ACK都和原来的包一致。</p>
+<h4 id="3-Tcp-previous-segment-lost（tcp先前的分片丢失）"><a href="#3-Tcp-previous-segment-lost（tcp先前的分片丢失）" class="headerlink" title="3. Tcp previous segment lost（tcp先前的分片丢失）"></a>3. <strong>Tcp previous segment lost（tcp先前的分片丢失）</strong></h4><p>一般是网络中的网络设备发生的拥塞了，触发了TCP的拥塞控制机制。它告诉发送方数据段丢失；<br>（1）、“TCP Previous segment lost” errors are not “fatal” errors. They simply indicate that the sequence number in the arriving packet is higher than the next-expected sequence number, indicating that at least one segment was dropped/lost. The receiving station remedies this situation by sending duplicate ACKs for each additional packet it receives until the sender retransmits the missing packet(s). TCP is designed to recover from this situation, which is why the image is downloaded correctly despite having a (briefly) missing packet.<br>If you are getting a large number of lost packets, then there is likely a communication problem between the sender and receiver. A common cause of this is un-matched duplex settings between the PC and the switch.<br>We (our lab) recently upgraded to Ethereal 0.10.14 with WinPCap 3.1.  If I remember correctly, we had previously been using 0.10.2 with WinPCap 3.0.  However, since the upgrade we have been noticing several issues.<br>The first issue is with “TCP Previous segment lost” and “TCP CHECKSUM INCORRECT” messages appearing in the Packet Listing window.  We do not remember seeing these in the previous version of Ethereal, or at least not nearly as many as we are seeing now.  For example, one task for the student instructional part of the lab involves visiting a website containing two images and observing the network activity.  After the two GET requests are sent for the images, it is not uncommon for one image to be returned with a typical 200 OK response packet, but the response packet for the other image will be displayed as “TCP Previous segment lost.”  However, both images are downloaded and displayed perfectly fine in the browser.  I would think that the segment lost error would mean the object wasn’t returned correctly and shouldn’t be able to be displayed, but apparently that is not the case.  (The cache had been cleared when this was performed, so it was not defaulting to a local copy of the image.)<br>Another problem we’ve been noticing is that some packets simply aren’t displayed in the Packet Listing window, even when they are obviously received.  Using the same example as above, after the two GET requests are sent for the images, it is not uncommon for one image to be returned with a typical 200 OK response, but the other response will not appear.  Yet both images are successfully displayed in the browser.  Is this a problem with Ethereal not detecting the packets?<br>I’m not sure how typical this is, but we seem to be experiencing these issues often with 0.10.14 while we never did with 0.10.2.  Could it also be an issue with WinPCap, and not necessarily Ethereal?  I’m just trying to find some answers as to why we are seeing a sudden abundance of TCP related errors and uncaptured packets.  Thanks.<br>（2）、I have a network client application that runs fine while I am debugging (no TCP errors),<br>but when I run the release version, it runs incredibly slow.  It runs as a series of<br>transactions, where each transaction is a separate connection to the server.  Wireshark<br>analysis has determined that about 50% of all transactions involve the series:<br>TCP Previous Segment Lost</p>
+</blockquote>
+<h4 id="4-Tcpacked-lost-segment（tcp应答丢失）"><a href="#4-Tcpacked-lost-segment（tcp应答丢失）" class="headerlink" title="4. Tcpacked lost segment（tcp应答丢失）"></a>4. Tcpacked lost segment（tcp应答丢失）</h4><h4 id="5-Tcp-window-update（tcp窗口更新）"><a href="#5-Tcp-window-update（tcp窗口更新）" class="headerlink" title="5. Tcp window update（tcp窗口更新）"></a>5. Tcp window update（tcp窗口更新）</h4><h4 id="6-Tcp-dup-ack（tcp重复应答）"><a href="#6-Tcp-dup-ack（tcp重复应答）" class="headerlink" title="6. Tcp dup ack（tcp重复应答）"></a>6. Tcp dup ack（tcp重复应答）</h4><blockquote>
+<p>1)当收到tcp out-of-order 信号时，可能发送该信号， 这个相同应答的意图是让对端知道一个分片被收到的时候出现问题，并且告诉它希望得到的序列号。<br>2)由于TCP不知道重复的ACK是由丢失的段引起的还是仅仅是重新排序段，所以等待接收到少量的重复的ACK。 假设如果只有段的重新排序，则在重新排序的段被处理之前将只有一个或两个重复的ACK，然后将生成新的ACK。 如果在一行中接收到三个或更多个重复的ACK，则表明段已经丢失。 TCP然后执行似乎是丢失段的重传，而不等待重传定时器到期。</p>
+</blockquote>
+<h4 id="7-Tcp-keep-alive（tcp保持活动）"><a href="#7-Tcp-keep-alive（tcp保持活动）" class="headerlink" title="7. Tcp keep alive（tcp保持活动）"></a>7. <strong>Tcp keep alive</strong>（tcp保持活动）</h4><blockquote>
+<p>在TCP中有一个Keep-alive的机制可以检测死连接，原理很简单，TCP会在空闲了一定时间后发送数据给对方：<br> 1.如果主机可达，对方就会响应ACK应答，就认为是存活的。<br> 2.如果可达，但应用程序退出，对方就发RST应答，发送TCP撤消连接。<br> 3.如果可达，但应用程序崩溃，对方就发FIN消息。<br> 4.如果对方主机不响应ack, rst，继续发送直到超时，就撤消连接。这个时间就是默认的二个小时。</p>
+</blockquote>
+<h4 id="8-Tcp-retransmission（tcp重传）"><a href="#8-Tcp-retransmission（tcp重传）" class="headerlink" title="8. Tcp retransmission（tcp重传）"></a>8. <strong>Tcp retransmission</strong>（tcp重传）</h4><blockquote>
+<p>作为一个可靠的传输协议，传输控制协议（TCP）在发送主机需要从目标主机收到一个包时确认。If the sender does not receive that acknowledgment within a certain amount of time, it acts under the assumption that the packet did not reach its destination and retransmits the packet.如果发件人没有收到的时间内一定之金额，确认，它的行为假设下，该数据包没有到达其目的地，以及转发数据包。</p>
+</blockquote>
+<h2 id="TCP-状态分析"><a href="#TCP-状态分析" class="headerlink" title="TCP 状态分析"></a>TCP 状态分析</h2><p>TCP的状态 (SYN, FIN, ACK, PSH, RST, URG)<br>在TCP层，有个FLAGS字段，这个字段有以下几个标识：SYN, FIN, ACK, PSH, RST, URG.<br>它们的含义是：</p>
+<ol>
+<li>SYN(synchronous): 表示建立连接.</li>
+<li>FIN(finish): 表示关闭连接.</li>
+<li>ACK(acknowledgement): 表示响应.</li>
+<li>PSH(push): 表示有DATA数据传输.</li>
+<li>RST(reset): 表示连接重置.</li>
+<li>URG(urgent):紧急.</li>
+<li>SEQ(Sequence number):顺序号码</li>
+</ol>
+<h2 id="TCP-三次握手流程"><a href="#TCP-三次握手流程" class="headerlink" title="TCP 三次握手流程"></a>TCP 三次握手流程</h2><ol>
+<li>主机A发送位码为syn＝1，随机产生seq number=1234567的数据包到服务器，主机B由SYN=1知道，A要求建立联机；</li>
+<li>主机B收到请求后要确认联机信息，向A发送ack number=(主机A的seq+1)，syn=1，ack=1，随机产生seq=7654321的包；</li>
+<li>主机A收到后检查ack number是否正确，即第一次发送的seq number+1，以及位码ack是否为1，若正确，主机A会再发送ack number=(主机B的seq+1)，ack=1，主机B收到后确认seq值与ack=1则连接建立成功。</li>
+</ol>
+<h2 id="各种网络包头格式"><a href="#各种网络包头格式" class="headerlink" title="各种网络包头格式"></a>各种网络包头格式</h2><h3 id="以太网头"><a href="#以太网头" class="headerlink" title="以太网头"></a>以太网头</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// MAC地址长度</div><div class="line">#define MAC_ADDRESS_LEN 6</div><div class="line"></div><div class="line">// 常用的以太网帧类型</div><div class="line">#define ETHERNET_FRAME_IP       0x0800              // IP帧</div><div class="line">#define ETHERNET_FRAME_ARP      0x0806              // ARP帧</div><div class="line">#define ETHERNET_FRAME_RARP     0x8035              // RARP帧</div><div class="line">#define ETHERNET_FRAME_IPv6     0x86DD              // IP6帧</div><div class="line"></div><div class="line">typedef struct _EthernetHeader      // 以太头</div><div class="line">&#123;</div><div class="line">    UCHAR       DstMacAddr[MAC_ADDRESS_LEN];        // 目标MAC</div><div class="line">    UCHAR       SrcMacAddr[MAC_ADDRESS_LEN];        // 源MAC</div><div class="line">    USHORT      FrmType;                            // 类型</div><div class="line">&#125;EthernetHeader, *PEthernetHeader;</div></pre></td></tr></table></figure>
+<h3 id="TCP-包格式"><a href="#TCP-包格式" class="headerlink" title="TCP 包格式"></a>TCP 包格式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">0                            15                              31</div><div class="line">-----------------------------------------------------------------</div><div class="line">|          source port          |       destination port        |</div><div class="line">-----------------------------------------------------------------</div><div class="line">|                        sequence number                        |</div><div class="line">-----------------------------------------------------------------</div><div class="line">|                     acknowledgment number                     |</div><div class="line">-----------------------------------------------------------------</div><div class="line">|  HL   | rsvd  |C|E|U|A|P|R|S|F|        window size            |</div><div class="line">-----------------------------------------------------------------</div><div class="line">|         TCP checksum          |       urgent pointer          |</div><div class="line">-----------------------------------------------------------------</div><div class="line">|                           Optional                            |</div><div class="line">-----------------------------------------------------------------</div><div class="line">|                              Data                             |</div><div class="line">-----------------------------------------------------------------</div><div class="line"></div><div class="line">// TCP头标志位掩码 OffFlag</div><div class="line">#define TCP_HDR_LEN             0xF000              // TCP头长度&lt;双字的个数&gt;转化为字节数需要x4</div><div class="line">#define TCP_URG_FLAG            0x0020              // URG标志</div><div class="line">#define TCP_ACK_FLAG            0x0010              // ACK标志 应答1或请求0</div><div class="line">#define TCP_PSH_FLAG            0x0008              // psh标志 以最快速度传输数据</div><div class="line">#define TCP_RST_FLAG            0x0004              // RST标志 先断开连接,再重建连接</div><div class="line">#define TCP_SYN_FLAG            0x0002              // SYN标志 用来建立连接</div><div class="line">#define TCP_FIN_FLAG            0x0001              // FIN标志 发送方完成数据发送</div><div class="line"></div><div class="line">typedef struct _TcpHeader           // TCP头 20 BYTES</div><div class="line">&#123;</div><div class="line">    USHORT      SrcPort;                            // 源端口</div><div class="line">    USHORT      DstPort;                            // 目的端口</div><div class="line">    ULONG       SeqNum;                             // 序号</div><div class="line">    ULONG       AckNum;                             // 确认号</div><div class="line">    USHORT      OffFlag;                            // 首部长度&lt;首部双字的个数&gt;+保留位+标志位</div><div class="line">    USHORT      WndSize;                            // 窗口大小&lt;实现流量控制&gt;</div><div class="line">    USHORT      Checksum;                           // 效验和</div><div class="line">    USHORT      UrgPointer;                         // 紧急指针</div><div class="line">&#125;TcpHeader, *PTcpHeader;</div><div class="line"></div><div class="line">// OffFlag : 4位首部长度 + 6位保留位 + URG+ACK+PSH+RST+SYN+FIN</div><div class="line"></div><div class="line">typedef struct _TCPPACKET           // TCP封包 &lt;当ip中没有附加数据时&gt;</div><div class="line">&#123;</div><div class="line">    EthernetHeader  Ehhdr;</div><div class="line">    IPHeader        Iphdr;</div><div class="line">    TcpHeader       Tcphdr;</div><div class="line">&#125;TCPPACKET, *PTCPPACKET;</div></pre></td></tr></table></figure>
+<p>SYN和ACK可能同时为1，它表示的就是建立连接之后的响应，<br>如果只是单个的一个SYN，它表示的只是建立连接。</p>
+<p>参考</p>
+<hr>
+<ul>
+<li><a href="http://bbs.pediy.com/thread-147644.htm" target="_blank" rel="external">http://bbs.pediy.com/thread-147644.htm</a></li>
+<li><a href="http://www.yunsec.net/a/school/wlcs/agreement/2012/0317/10262.html" target="_blank" rel="external">http://www.yunsec.net/a/school/wlcs/agreement/2012/0317/10262.html</a></li>
+<li><a href="http://www.9upk.com/article/2537.html" target="_blank" rel="external">http://www.9upk.com/article/2537.html</a> （抓包工具教程）</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>你的支持使我不断前进！Enjoy it ? Donate me !</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/1736256-3ba20f6256d1132d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/1736256-6b41a0e538d4aa27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/抓包工具/" rel="tag"># 抓包工具</a>
+          
+            <a href="/tags/wireShark/" rel="tag"># wireShark</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/01/TcpDump/" rel="next" title="tcpDump">
+                <i class="fa fa-chevron-left"></i> tcpDump
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/01/PC小技巧/" rel="prev" title="PC小技巧">
+                PC小技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+               alt="Alex.Lin" />
+          <p class="site-author-name" itemprop="name">Alex.Lin</p>
+           
+              <p class="site-description motion-element" itemprop="description">Write the code Change the world</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ilxj" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2011xiaojun" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/3add4c9179b3" target="_blank" title="JianShu">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  JianShu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-vcard"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://upload-images.jianshu.io/upload_images/1736256-4c85a3f42e295e7e.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" title="WeChat">
+                  
+                    <i class="fa fa-fw fa-weixin"></i>
+                  
+                  WeChat
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com/" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://chuangzaoshi.com/" title="创造狮" target="_blank">创造狮</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WireShark入门"><span class="nav-number">1.</span> <span class="nav-text">WireShark入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、-打开WireShark"><span class="nav-number">1.1.</span> <span class="nav-text">一、 打开WireShark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、界面分区"><span class="nav-number">1.2.</span> <span class="nav-text">二、界面分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、过滤规则语句"><span class="nav-number">1.3.</span> <span class="nav-text">三、过滤规则语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、TCP包分析"><span class="nav-number">1.4.</span> <span class="nav-text">四、TCP包分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个TCP包由5部分组成分别是"><span class="nav-number">1.4.1.</span> <span class="nav-text">一个TCP包由5部分组成分别是:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与之对应的网络七层协议图如下"><span class="nav-number">1.4.2.</span> <span class="nav-text">与之对应的网络七层协议图如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OSI-参考模型与-TCP-IP分层模型"><span class="nav-number">1.4.3.</span> <span class="nav-text">OSI 参考模型与 TCP/IP分层模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-三次握手"><span class="nav-number">1.4.4.</span> <span class="nav-text">TCP 三次握手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WireShark抓包分析图"><span class="nav-number">1.4.5.</span> <span class="nav-text">WireShark抓包分析图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一次握手"><span class="nav-number">1.4.5.1.</span> <span class="nav-text">第一次握手</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二次握手："><span class="nav-number">1.4.5.2.</span> <span class="nav-text">第二次握手：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三次握手"><span class="nav-number">1.4.5.3.</span> <span class="nav-text">第三次握手</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、WireShark-抓包异常情况分析"><span class="nav-number">1.5.</span> <span class="nav-text">五、WireShark 抓包异常情况分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-tcp-out-of-order（tcp有问题）"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. tcp out-of-order（tcp有问题）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-tcp-segment-of-a-reassembled-PDU"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. tcp segment of a reassembled PDU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Tcp-previous-segment-lost（tcp先前的分片丢失）"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. Tcp previous segment lost（tcp先前的分片丢失）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Tcpacked-lost-segment（tcp应答丢失）"><span class="nav-number">1.5.4.</span> <span class="nav-text">4. Tcpacked lost segment（tcp应答丢失）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Tcp-window-update（tcp窗口更新）"><span class="nav-number">1.5.5.</span> <span class="nav-text">5. Tcp window update（tcp窗口更新）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Tcp-dup-ack（tcp重复应答）"><span class="nav-number">1.5.6.</span> <span class="nav-text">6. Tcp dup ack（tcp重复应答）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-Tcp-keep-alive（tcp保持活动）"><span class="nav-number">1.5.7.</span> <span class="nav-text">7. Tcp keep alive（tcp保持活动）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Tcp-retransmission（tcp重传）"><span class="nav-number">1.5.8.</span> <span class="nav-text">8. Tcp retransmission（tcp重传）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-状态分析"><span class="nav-number">2.</span> <span class="nav-text">TCP 状态分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-三次握手流程"><span class="nav-number">3.</span> <span class="nav-text">TCP 三次握手流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种网络包头格式"><span class="nav-number">4.</span> <span class="nav-text">各种网络包头格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以太网头"><span class="nav-number">4.1.</span> <span class="nav-text">以太网头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-包格式"><span class="nav-number">4.2.</span> <span class="nav-text">TCP 包格式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex.Lin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140501"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

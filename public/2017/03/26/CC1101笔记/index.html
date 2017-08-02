@@ -1,0 +1,1982 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="无线,433MHZ,cc1101," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="产品描述工作频段CC1100: 400-464 MHz and 800-928MHzCC1101: 387-464 MHz and 779-928MHz
+芯片引脚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CC1101笔记">
+<meta property="og:url" content="http://lxj-life.com/2017/03/26/CC1101笔记/index.html">
+<meta property="og:site_name" content="AlexLin">
+<meta property="og:description" content="产品描述工作频段CC1100: 400-464 MHz and 800-928MHzCC1101: 387-464 MHz and 779-928MHz
+芯片引脚">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-bf9e764fcd560a78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-043836467cbc7d84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-d71997128378e0f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-d519a90a009de7e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-7786a7bdca8c6dee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-116e004500c41ba0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-1dc0e7c8463d0096.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-e692bc860255aa22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1736256-32d8e78d15cce521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-08-01T16:49:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CC1101笔记">
+<meta name="twitter:description" content="产品描述工作频段CC1100: 400-464 MHz and 800-928MHzCC1101: 387-464 MHz and 779-928MHz
+芯片引脚">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1736256-bf9e764fcd560a78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lxj-life.com/2017/03/26/CC1101笔记/"/>
+
+
+
+
+
+  <title> CC1101笔记 | AlexLin </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?32bb077273d902ca71df67ccfe276208";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AlexLin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lxj-life.com/2017/03/26/CC1101笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex.Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlexLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CC1101笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-26T00:38:11+08:00">
+                2017-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/射频/" itemprop="url" rel="index">
+                    <span itemprop="name">射频</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><hr>
+<h1 id="产品描述"><a href="#产品描述" class="headerlink" title="产品描述"></a>产品描述</h1><h2 id="工作频段"><a href="#工作频段" class="headerlink" title="工作频段"></a>工作频段</h2><p><strong>CC1100: </strong>400-464 MHz and 800-928MHz<br><strong>CC1101:</strong> 387-464 MHz and 779-928MHz</p>
+<h2 id="芯片引脚"><a href="#芯片引脚" class="headerlink" title="芯片引脚"></a>芯片引脚</h2><p><img src="http://upload-images.jianshu.io/upload_images/1736256-bf9e764fcd560a78.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="cc1101引脚"><br><a id="more"></a></p>
+<h3 id="引脚说明"><a href="#引脚说明" class="headerlink" title="引脚说明"></a>引脚说明</h3><hr>
+<table>
+<thead>
+<tr>
+<th>引脚编号</th>
+<th>引脚名</th>
+<th>引脚类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>SCLK</td>
+<td>数字输入</td>
+<td>连续配置接口，时钟输入</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SO(GD01)</td>
+<td>数字输出</td>
+<td>连续配置接口，数据输出当 CSn 为高时为可选的一般输出脚</td>
+</tr>
+<tr>
+<td>3</td>
+<td>GDO2</td>
+<td>数字输出</td>
+<td>一般用途的数字输出脚：<strong>1&gt;</strong>测试信号；<strong>2&gt;</strong>FIFO 状态信号;<strong>3&gt;</strong>时钟输出，从 XOSC 向下分割;<strong>4&gt;</strong>连续输入 TX 数据</td>
+</tr>
+<tr>
+<td>4</td>
+<td>DVDD</td>
+<td>功率（数字）</td>
+<td>数字 I/O 和数字中心电压调节器的 1.8V-3.6V 数字功率供给输出</td>
+</tr>
+<tr>
+<td>5</td>
+<td>DCOUPL</td>
+<td>功率（数字）</td>
+<td>对退耦的 1.6V-2.0V 数字功率供给输出;<strong>注意：这个引脚只对 CC2500 使用。不能用来对其他设备提供供给电压</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>GDO0(ATEST)</td>
+<td>数字 I/O</td>
+<td>一般用途的数字输出脚：<strong>1&gt;</strong> 测试信号;<strong>2&gt;</strong>FIFO 状态信号;<strong>3&gt;</strong>时钟输出，从 XOSC 向下分割;<strong>4&gt;</strong>连续输入 TX 数据;<strong>5&gt;</strong>也用作原型/产品测试的模拟测试 I/O</td>
+</tr>
+<tr>
+<td>7</td>
+<td>CSn</td>
+<td>数字输入</td>
+<td>连续配置接口，芯片选择</td>
+</tr>
+<tr>
+<td>8</td>
+<td>XOSC_Q1</td>
+<td>模拟 I/O</td>
+<td>晶体振荡器脚 1，或外部时钟输入</td>
+</tr>
+<tr>
+<td>9</td>
+<td>AVDD</td>
+<td>功率（模拟）</td>
+<td>1.8V-3.6V 模拟功率供给连接</td>
+</tr>
+<tr>
+<td>10</td>
+<td>XOSC_Q2</td>
+<td>模拟 I/O</td>
+<td>晶体振荡器脚</td>
+</tr>
+<tr>
+<td>11</td>
+<td>AVDD</td>
+<td>功率（模拟）</td>
+<td>1.8V-3.6V 模拟功率供给连接</td>
+</tr>
+<tr>
+<td>12</td>
+<td>RF_P</td>
+<td>RF I/O</td>
+<td>接收模式下对 LNA 的正 RF 输入信号发送模式下对 LNA 的正 RF 输出信号</td>
+</tr>
+<tr>
+<td>13</td>
+<td>AVDD</td>
+<td>RF I/O</td>
+<td>接收模式下对 LNA 的负 RF 输入信号发送模式下对 LNA 的负 RF 输出信号</td>
+</tr>
+<tr>
+<td>14</td>
+<td>AVDD</td>
+<td>功率（模拟）</td>
+<td>1.8V-3.6V 模拟功率供给连接</td>
+</tr>
+<tr>
+<td>15</td>
+<td>AVDD</td>
+<td>功率（模拟）</td>
+<td>1.8V-3.6V 模拟功率供给连接</td>
+</tr>
+<tr>
+<td>16</td>
+<td>GND</td>
+<td>地(模拟)</td>
+<td>模拟接地</td>
+</tr>
+<tr>
+<td>17</td>
+<td>RBIAS</td>
+<td>模拟 I/O</td>
+<td>参考电流的外部偏阻器</td>
+</tr>
+<tr>
+<td>18</td>
+<td>DGUARD</td>
+<td>功率（数字）</td>
+<td>对数字噪声隔离的功率供给连接</td>
+</tr>
+<tr>
+<td>19</td>
+<td>GND</td>
+<td>地（数字）</td>
+<td>数字噪声隔离的接地</td>
+</tr>
+<tr>
+<td>20</td>
+<td>SI</td>
+<td>数字输入</td>
+<td>连续配置接口，数据输入</td>
+</tr>
+</tbody>
+</table>
+<h2 id="通讯方式以及配置方式—SPI"><a href="#通讯方式以及配置方式—SPI" class="headerlink" title="通讯方式以及配置方式—SPI"></a>通讯方式以及配置方式—SPI</h2><ul>
+<li>CC1101通过4线SPI兼容接口（MOSI,MISO,SCLK和CSn）进行配置，<strong>CC1101作为从设备</strong>。<br>这个接口同时用作读写缓冲器数据。<br>SPI接口上所有的数据传送都是先传送 <strong>MSB</strong></li>
+</ul>
+<blockquote>
+<p><strong>拓展知识:</strong><br><strong>MSB:</strong>高位前导<br><strong>LSB:</strong>低位前导。<br><strong>big endian（大端）</strong>是指低地址存放最高有效字节（MSB），<br><strong>little endian（小端）</strong>则是低地址存放最低有效字节（LSB）</p>
+</blockquote>
+<h3 id="SPI-读写注意事项"><a href="#SPI-读写注意事项" class="headerlink" title="SPI 读写注意事项"></a>SPI 读写注意事项</h3><ul>
+<li>SPI接口上的所有传送都是以一个头字节（header byte）开始包含以下：<ul>
+<li>一个<strong>读写位(R/W)：</strong>在读操作中该位置1，在写操作中该位置0；</li>
+<li>一个<strong>(突发(burst access)访问位(B)</strong></li>
+<li><strong>6位地址位(A5~A0)</strong>。</li>
+</ul>
+</li>
+<li>在SPI总线上传输数据时，CSn脚必须保持低电平。如果在发送头字节或者读写寄存器时CSn拉高，传送将被取消</li>
+<li>当 CSn 变低，在开始转换头字节之前，MCU必须等待，直到 MISO 脚变低。这表明电压调制器已经稳定，晶体正在运作中。除非芯片处在 SLEEP 或 XOFF 状态，MISO 脚在 CSn变低之后总会立即变低。</li>
+</ul>
+<h4 id="芯片状态字节"><a href="#芯片状态字节" class="headerlink" title="芯片状态字节"></a><strong>芯片状态字节</strong></h4><ul>
+<li>当头字节在 SPI 接口上被写入时，芯片状态字节在 MISO 脚上被 CC1100 写入。状态字节<br>包含关键状态信号，对 MCU 是有用的。<strong>(7)位</strong>是 CHIP_RDYn 信号。在 SCLK 的在第一个正边缘之前，这个信号必须变低。CHIP_RDYn 信号表明晶体正处于工作中，调节数字供给电压是稳定的。</li>
+<li>状态字节中的<strong>(6:4 )</strong>位由状态值组成。这个值反映了芯片的状态。当使 XOSC 空闲并使数字中心的能量开启，所有其他模块处于功率降低状态。只有芯片处于此状态时，频率和信道配置才能被更新。当芯片处于接收模式时，RX状态是活动的。同样地，当芯片处于传输模式时，TX 状态是活动的。</li>
+<li>状态字节中的后四位<strong>(3:0)</strong>包含FIFO_BYTES_AVAILABLE。为了进行读操作，这个区域包含可从 RX FIFO 读取的字节数。为了进行写操作，这个区域包含可写入 TX  FIFO的字当FIFO_BYTES_AVAILABLE=15，15 或者更多的字节是可用/自由的。<br><img src="http://upload-images.jianshu.io/upload_images/1736256-043836467cbc7d84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="状态字节概要"></li>
+</ul>
+<h3 id="寄存器访问"><a href="#寄存器访问" class="headerlink" title="寄存器访问"></a>寄存器访问</h3><ul>
+<li><strong>CC1101 配置寄存器地址: </strong> 0x00到0x2E</li>
+<li>所有的配置寄存器均能读和写。读/写位控制寄存器是读或者写。当对寄存器写时，每当一个待写入的数据字节传输到 SI脚时，状态字节将被送至 SO 脚。</li>
+<li>通过在地址头设置突发位，连续地址的寄存器能高效地被访问。这个地址在内部计数器内设置起始地址。每增加一个新的字节（每8 个时钟脉冲），计数器值增加 1。突发访问，不管是读访问还是写访问，必须通过设置CSn 为高来终止。</li>
+<li>对 0x30-0x3D 间的地址来说，突发位用以在<strong>状态寄存器</strong>和<strong>命令选通</strong>间选择。状态寄存器只读。突发读取对状态寄存器是不可取的，故它们每次只能被读一个。<br><strong>burst位置1：</strong>选择状态寄存器；<br><strong>burst置0：</strong>选择命令选通（command strobes）;</li>
+</ul>
+<h3 id="命令选通-command-strobes"><a href="#命令选通-command-strobes" class="headerlink" title="命令选通(command strobes)"></a>命令选通(command strobes)</h3><ul>
+<li>命令选通可以看做是CC1101的一个单字节指令。<br>通过寻址一个命令选通寄存器，将启动内部序列。<br>这些命令用来<strong>禁止晶振</strong>，<strong>使能接收</strong>，<strong>使能无线唤醒</strong> 等；</li>
+<li>命令选通寄存器的访问和一个寄存器的写操作一样，但没有数据被传输。就是说，只有 R/W 位（置为 0）突发访问（置为 0）和六个地址位（0x30 和 0x3D 之间）被写。一个命令滤波可能在任何其他 SPI 访问之后，而不需要将 CSn 拉至高电平。命令选通立即被执行，当 CSn 高时 SPWD 和 SXOFF 命令被执行是例外。</li>
+</ul>
+<h3 id="FIFO访问"><a href="#FIFO访问" class="headerlink" title="FIFO访问"></a>FIFO访问</h3><ul>
+<li>64 字节 TX FIFO 和 64 字节 RX FIFO 通过0x3F 被访问。<ul>
+<li>读/写位为 0 时，TX FIFO被访问。</li>
+<li>读/写位为 1 时，RX FIFO 被访问。</li>
+</ul>
+</li>
+<li>TX FIFO 是只写的，而 RX FIFO 是只读的。</li>
+<li>突发位用来决定 FIFO 访问是单字节还是突发访问。<ul>
+<li>单字节访问方式期望地址的突发位为 0 的头字节和一个数据字节。在数据字节之后跟随一个新的头字节，因此，CSn 继续保持低。</li>
+<li>突发访问方式允许一地址字节，然后是连续的数据字节，直到通过设置 CSn 为高来关断访问。<ul>
+<li>0x3F : 单字节访问 TX FIFO</li>
+<li>0x7F : 突发访问 TX FIFO</li>
+<li>0xBF : 单字节访问 RX FIFO</li>
+<li>0XFF : 突发访问 RX FIFO</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="PATABLE-访问"><a href="#PATABLE-访问" class="headerlink" title="PATABLE 访问"></a>PATABLE 访问</h3><ul>
+<li><strong>0x3E</strong>地址用来访问 PATABLE。PATABLE用来选择 PA 能量控制设置。在接收此地址之后，SPI 等待至少 8 个字节。通过控制PATABLE，能实现可控的 PA 能量上升和下降，减少的带宽的 ASK 调制整型也如此。</li>
+<li>PATABLE 是一个 8 字节表，定义了 PA 控制设 置 ， 为 8 个 PA 功 率 值 （ 由FRENDO.PA_POWER 的 3 个位的值所选择）的每一个所使用。这个表从最低位（0）到最高位（7）可读和写，一次一位。一个索引计数器用来控制对这个表的访问。每读出或写入表中的一个字节，计数器就加 1。当 CSn 为高时，计数值置为最小值。当达到最大值时，计数器由零重新开始计数。</li>
+<li>对 PATABLE 的访问是单字节或者突发访问，由突发位决定。当使用突发访问时，索引计数器的值增加；达到7时重新从0开始。读/写位控制访问是写访问（R/W=0）或者读访问(R/W=1)。</li>
+<li>如果一字节被写入 PATABLE，且这个值将要被读出，那么，为了设置索引计数器的值重为 0，CSn 必须在读访问之前置为高。注意，当 PATABLE 进入休眠状态时，所存储的内容会丢失，特别是第一个字节（索引<br>为 0）。</li>
+</ul>
+<h3 id="基本控制和状态脚"><a href="#基本控制和状态脚" class="headerlink" title="基本控制和状态脚"></a>基本控制和状态脚</h3><ul>
+<li>CC1101有2个专用配置脚（GDO0和GDO2）和一个共用脚（GDO1）可以向控制软件输出有用的内部状态信息。这些脚可以用来向MCU产生中断。</li>
+<li>GDO1和SPI的SO引脚共用。<ul>
+<li>GDO1/SO的默认设置时3态输出。通过选择任何编程选项，GDO1/SO将变为普通引脚。当CSn拉低，该引脚将始终作为普通的SO功能引脚。</li>
+</ul>
+</li>
+<li>在同步和异步串行模式，在发送模式下，GDO0引脚将作为串行TX数据输入引脚。</li>
+<li>GDO0也可以用作片上模拟温度传感器。通过外部ADC测量GDO0脚的电压，可以计算出温度。温度传感器的详细说明见18页的Section 4.7。通过默认的PTEST寄存器设置（0x7F），如果频率合成器被允许温度传感器的的输出时可用的。（例如：MANCAL，FSTXON，RX和 TX状态）在IDLE状态向PTEST寄存器写入0xBF允许模拟温度传感器是必要的。离开IDLE状态之前，必须恢复PTEST寄存器为默认值（0x7F）。</li>
+</ul>
+<h3 id="数据包处理的硬件支持"><a href="#数据包处理的硬件支持" class="headerlink" title="数据包处理的硬件支持"></a>数据包处理的硬件支持</h3><h4 id="发送模式下"><a href="#发送模式下" class="headerlink" title="发送模式下"></a>发送模式下</h4><blockquote>
+<p>数据包的处理者可以配置增加下面的元素到TX FIFO中的数据包存储</p>
+</blockquote>
+<ul>
+<li>一个可编程数量的前导字节；</li>
+<li>两字节同步字，可复制为4字节同步字。只插入前导字节或者同步字节是不可能的；</li>
+<li>一个覆盖数据区域的CRC校验计算。 <blockquote>
+<p>推荐设置4字节前导和4字节同步字，除了500k波特率时推荐使用8字节前导。另外，在数据区域和附加的2字节CRC校验，以下可以被执行</p>
+<ul>
+<li>使用PN9序列Whitening数据。 </li>
+<li>通过使用交叉和编码数据（卷积编码）前向纠错。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h4 id="接收模式下"><a href="#接收模式下" class="headerlink" title="接收模式下"></a>接收模式下</h4><blockquote>
+<p>数据包处理支持将是解构数据包，（如使能）以下可以被执行</p>
+</blockquote>
+<ul>
+<li>前导检测</li>
+<li>同步字检测</li>
+<li>CRC计算和CRC检查</li>
+<li>一个字节地址检测</li>
+<li>包长度检查（根据设置的最大长度检查长度字节）</li>
+<li>反Whitening（如果使能）</li>
+<li>反交叉和解码( 如果使能 )<br>另外，RSSI（接收信号强度指示）、LQI（链路质量指示）和CRC状态的两个状态字节可以附加在RX FIFO</li>
+</ul>
+<h3 id="数据包格式"><a href="#数据包格式" class="headerlink" title="数据包格式"></a>数据包格式</h3><p>数据包的格式可以配置为由以下部分组成： </p>
+<ul>
+<li>前导 n 同步字 </li>
+<li>可选的长度字节 </li>
+<li>可选的地址字节 </li>
+<li>净荷 </li>
+<li>可选的2字节CRC<br><img src="http://upload-images.jianshu.io/upload_images/1736256-d71997128378e0f9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="数据格式"></li>
+</ul>
+<blockquote>
+<p>前导形式是一个交互的0 /1 序 列（01010101…）前导的最小长度是可编程控制的。当启用 TX 时，调制器开始传送前导。当控制数目的前导字节被传送完毕，调制器开始发送同步词汇，然后传送来自 TX FIFO的可利用的数据。若 TX FIFO 为空，调制器将继续传送前导字节，直到第一个字节被写入 TX FIFO。调制器将随后传送同步词汇和数据字节;<br>前导字节的长度由MDMCFG1.NU_PREAMBLE 值控制。</p>
+</blockquote>
+<h3 id="数据包长度"><a href="#数据包长度" class="headerlink" title="数据包长度"></a>数据包长度</h3><ul>
+<li>CC1101 支持恒定长度数据包协议和可变长度协议。</li>
+<li><strong>可变</strong>或<strong>固定数据包</strong>长度模式能支持的长度可达 255 字节。</li>
+<li><strong>大于255个字节</strong>的数据包，必须使用<strong>无限数据包长度模式</strong>；<blockquote>
+<p>使用不同长度的配置来支持数据包格式。必须确保在发送前半个或任何字节的时候TX模式不被关闭</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="固定数据包长度"><a href="#固定数据包长度" class="headerlink" title="固定数据包长度"></a>固定数据包长度</h4><ul>
+<li>固定数据包长度模式通过设定PKTCTRL0.LENGTH_CONFIG=0来选择。</li>
+<li>期望的数据包长度通过PKTLEN寄存器来设置，不包括长度字节和可选的CRC；</li>
+</ul>
+<h4 id="可变数据包长度"><a href="#可变数据包长度" class="headerlink" title="可变数据包长度"></a>可变数据包长度</h4><ul>
+<li>可变数据包长度模式，PKTCTRL0.LENGTH_CONFIG=1，数据包长度由同步字后面的第一个字节配置。</li>
+<li>数据包长度定义为有效载荷，不包括长度字节和可选的CRC。</li>
+<li>PKTLEN用来配置允许接收的最大数据包长度。</li>
+<li>任何接收的数据包长度大于PKTLEN的值都将被丢弃。</li>
+</ul>
+<h5 id="可变长数据包收发逻辑"><a href="#可变长数据包收发逻辑" class="headerlink" title="可变长数据包收发逻辑"></a>可变长数据包收发逻辑</h5><p>数据包长度寄存器PKTLEN，在接收和发送时可以重新编程。结合固定数据包长度模式(PKTCTRL0.LENGTH_CONFIG=0)，这使与变长数据包不同的长度配置成为可能。（在可变数据包长度模式下长度字节是同步字节后第一个字节）在接收开始，数据包长度设置为一个大的值。MCU读取足够多的字节来解析数据包中的长度区域。然后依照这个值对PKTLEN进行设置。当数据包处理器中的字节计数器等于PKTLEN寄存器的值时数据包结束。因此，MCU必须在内部计数器达到数据包长度之前确认正确的长度</p>
+<h4 id="无限数据包长度模式-大于255个字节"><a href="#无限数据包长度模式-大于255个字节" class="headerlink" title="无限数据包长度模式(大于255个字节)"></a>无限数据包长度模式(大于255个字节)</h4><ul>
+<li>PKTCTRL0.LENGTH_CONFIG=2，数据包长度将设置为无限长，发送和接收将持续到手动关闭。</li>
+</ul>
+<h5 id="无限数据包长度收发逻辑"><a href="#无限数据包长度收发逻辑" class="headerlink" title="无限数据包长度收发逻辑"></a>无限数据包长度收发逻辑</h5><ul>
+<li>数据包自动控制寄存器PKTCTRL0，可以在TX和RX期间重新编程。这就使发送和接收数据包长度超过256字节并且仍然使用数据包处理器硬件支持成为可能。</li>
+<li>在数据包开始时，必须激活无限数据包长度模式（PKTCTRL0.LENGTH_CONFIG=2）。</li>
+<li>在发送端，PKTLEN寄存器设置为：mod(长度,256)。</li>
+<li>在接收端，MCU读出足够长度的字节来解析出数据包长度并设置PKTLEN寄存器为:mod(长度,256)。</li>
+<li>当数据包中还有少于256字节数据，MCU禁止数据包无限长度模式并且激活固定长度模式。</li>
+<li>当内部字节计数器到PKTLEN时，发送和接收结束。</li>
+<li>（无线进入的状态由TXOFF_MODE 或 RXOFF_MODE决定）自动CRC添加/校验也可以使用（通过设置PKTCTRL0.CRC_EN=1）。</li>
+</ul>
+<blockquote>
+<p>例子:发送一个600字节的数据包时，MCU必须按照以下执行：</p>
+<ul>
+<li>设置PKTCTRL0.LENGTH_CONFIG=2。 </li>
+<li>重新设置PKTLEN寄存器的值为:（600，256）=88. <strong>(600%256 = 88)</strong></li>
+<li>至少发送345字节（600-255），例如通过填充64字节 TX FIFO 6次（发送384字节）。 </li>
+<li>设置PKTCTRL0.LENGTH_CONFIG=0。 </li>
+<li>当数据包计数器达到88发送完成。一共600字节被发送。<br><img src="http://upload-images.jianshu.io/upload_images/1736256-d519a90a009de7e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="600个字节发送"></li>
+</ul>
+</blockquote>
+<h3 id="接收模式下的数据包过滤"><a href="#接收模式下的数据包过滤" class="headerlink" title="接收模式下的数据包过滤"></a>接收模式下的数据包过滤</h3><p>CC1101支持三种不同类型的数据包过滤：</p>
+<ul>
+<li>地址过滤</li>
+<li>最大长度过滤</li>
+<li>CRC过滤</li>
+</ul>
+<h4 id="地址过滤"><a href="#地址过滤" class="headerlink" title="地址过滤"></a>地址过滤</h4><ul>
+<li>设置PKTCTRL1.ADR_CHK为任意大于0的值使能数据包地址过滤。</li>
+<li>数据包处理器启动后将比较数据包中的目标地址字节和在ADDR寄存器中设置的节点地址<br>或者当PKTCTRL1.ADR_CHK=10时的广播地址0x00<br>以及PKTCTRL1.ADR_CHK=11时的广播地址0x00和0xFF。<br>如果接收的地址匹配到一个正确地址，数据包被接收并写入到RX FIFO。<br>如果地址匹配失败，数据包将被丢弃，重新启动接收模式（不管MCSM1.RXOFF_MODE的设置）。 </li>
+<li>如果当时用无限数据包长度模式和使能地址过滤时接收地址匹配到正确的地址，0xFF将被写入到RX FIFO，其次是地址字节和有效载荷。</li>
+</ul>
+<h4 id="最大长度过滤"><a href="#最大长度过滤" class="headerlink" title="最大长度过滤"></a>最大长度过滤</h4><p>在可变数据包模式，PKTCTRL0.LENGTH_CONFIG=1，PKTLEN.PACKET_LENGTH寄存器用来设置最大允许的数据包长度。如果接收的长度字节大于这个值，数据包将被丢弃，重新启动接收模式（不管MCSM1.RXOFF_MODE的设置）。</p>
+<h4 id="CRC过滤"><a href="#CRC过滤" class="headerlink" title="CRC过滤"></a>CRC过滤</h4><ul>
+<li>当CRC校验失败时过滤数据包，通过设置PKTCTRL1.CRC_AUTOFLUSH=1使能；</li>
+<li>CRC自动清除功能将在CRC校验失败时清空所有RX FIFO；</li>
+<li>在自动清空RX FIFO后，下一个状态依赖于MCSM1.RXOFF_MODE的设置；</li>
+<li>当使用自动清除功能，在可变数据包长度模式下最大数据包长度为63字节，在定长数据包长度模式下是64字节；</li>
+<li>注意当PKTCTRL1.APPEND_STATUS使能，最大允许数据包长度将减少2个字节，以确保在数据包的结尾附加的2字节的状态字节在RX FIFO中占用的空间；</li>
+<li>当CRC校验错误以后全部RX FIFO被清空；</li>
+<li>在接收正确的数据包前之前接收到的数据包必须从FIFO中读出。直到CRC校验正确MCU才从正确的数据包中读取数据；</li>
+</ul>
+<h3 id="发送模式下的数据包处理"><a href="#发送模式下的数据包处理" class="headerlink" title="发送模式下的数据包处理"></a>发送模式下的数据包处理</h3><ul>
+<li>需要发送的有效载荷必须写入到TX FIFO；</li>
+<li>如果使能可变数据包长度第一个字节必须写长度字节；</li>
+<li>长度字节的值等于数据包的有效载荷（包含可选的地址字节）；</li>
+<li>如果在接收端使能地址识别，写入到TX FIFO中的第二个字节必须是地址字节；</li>
+<li>如果使能固定数据包长度，写入到TX FIFO中的第一个字节必须是地址字节（接收端使用地址识别）；</li>
+<li>调制器将首先发送预置数量的前导字节；</li>
+<li>如果TX FIFO中有可发送的数据，调制器将发送2字节（可选4字节）同步字，紧接着是TX FIFO中的有效载荷；</li>
+<li>如果使能CRC，校验时计算TX FIFO中的所有数据，然后跟随有效数据发送2个附加字节；</li>
+<li>如果在完整的数据包发送完成之前TX FIFO变为空的，无线将进入TXFIFO_UNDERFLOW状态。退出该状态的唯一方法是运行SFTX命令；</li>
+<li>发送下溢后再向TX FIFO写入数据不能重启TX模式；</li>
+<li>如果whitening(白化)被使能，同步字后面的所有字节将被whitened。这必须在FEC/Interleaver之前完成。Whitening通过设置PKTCTRL0.WHITE_DATA=1使能；</li>
+<li>如果FEC/Interleaving(交错器)被使能，同步字后面的所有数据在调制之前将被interleaver 和 FEC编码加密。FEC通过设置MDMCFG1.FEC_EN=1使能；</li>
+</ul>
+<h3 id="接收模式下的数据包处理"><a href="#接收模式下的数据包处理" class="headerlink" title="接收模式下的数据包处理"></a>接收模式下的数据包处理</h3><ul>
+<li>在接收模式，解调器和数据包处理器将寻找一个有效的前导和同步字。</li>
+<li>当找到后，解调器将获得位和字节同步，并将接收第一个有效字节。 </li>
+<li>如果使能FEC/Interleaver，FEC解码器将开始解码第一个有效字节。Interleaver将在数据被其他任何处理之前解密。 </li>
+<li>如果使能whitening，在此基础上数据将被de-whitening(反白化)。 </li>
+<li>当使能可变数据包长度模式时，第一个字节是长度字节。数据包处理器储存该值为数据包长度并且通过该长度字节指示接收的字节数量。</li>
+<li>如果使用固定数据包长度模式，数据包处理器将接收预置数量的字节。 </li>
+<li>接下来，数据包处理器可选的检测地址并且只有地址匹配才继续接收。</li>
+<li>如果使能自动CRC校验，数据包处理器计算CRC并与CRC校验结果相匹配。 </li>
+<li>在有效载荷的结尾，数据包处理器将可选的写入两个复交数据包状态字节，包括CRC状态、LQI和RSSI</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1736256-7786a7bdca8c6dee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="接收数据包状态字1"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1736256-116e004500c41ba0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="接收数据包状态字2"></p>
+<h3 id="MCU数据包处理"><a href="#MCU数据包处理" class="headerlink" title="MCU数据包处理"></a>MCU数据包处理</h3><p>如果在固件中执行一个数据包导向的无线协议，MCU需要知道一个数据包什么时候收到/发送。<br>加之，超过64字节长度的数据包，当接收时需要读取RX FIFO和当发送时TX FIFO需要重新填充。<br>这就意味着MCU必须知道有多少个字节可以从RX FIFO中读取或者可以向TX FIFO中写入。<br>有两种方法可以获得必要的状态信息。</p>
+<ul>
+<li><p>中断驱动方法<br>当同步字接收/发送完成或者完整的数据包接收/发送通过设置IOCFGx.GDOx_CFG=0x06，GDO脚可以用在RX和TX中产生一个中断。<br>此外，<br>IOCFGx.GDOx_CFG还有两个配置用来产生中断，源于有多少字节在RX FIFO或TX FIFO。<br>IOCFGx.GDOx_CFG=0x00和IOCFGx.GDOx_CFG=0x01为RX FIFO，<br>IOCFGx.GDOx_CFG=0x02和IOCFGx.GDOx_CFG=0x03为TX FIFO。</p>
+</li>
+<li><p>SPI轮询<br>PKTSTATUS可以使用给定的速率查询以获得GDO0和GDO2当前值。<br>RXBYTES 和 TXBYTES可以使用给定的速率查询以获得RX FIFO或者TX FIFO中的字节数。<br>合二为一的，RX FIFO和TX FIFO中的字节数量可以从每次头字节、数据字节或命令选通在SPI总线上发送时MISO引脚返回的芯片状态字节读取。 </p>
+<blockquote>
+<p><strong>推荐使用中断驱动方法</strong>因为高速率SPI轮询将减小RX的灵敏度。<br>而且，在Section10.3和CC1101勘误表【4】中，当使用SPI轮询，单一读取PKTSTATUS、 RXBYTES和 TXBYTES有一个小的有限的错误的可能性。<br>当读取芯片状态字节有同样的问题。 </p>
+</blockquote>
+</li>
+</ul>
+<h3 id="RSSI"><a href="#RSSI" class="headerlink" title="RSSI"></a>RSSI</h3><ul>
+<li>RSSI的值时在选择的通道中信号功率级别的估计。</li>
+<li>这个值基于RX中当前增益的设置和信道中的标准信号等级。 </li>
+<li><p>在RX模式，RSSI可以连续的从RSSI状态寄存器读取知道解调器检测到一个同步字（当同步字检测使能）。此时RSSI读取的值将被冻结知道芯片下一次进入RX状态。 </p>
+<blockquote>
+<p>注意：从无线进入RX模式到在RSSI寄存器检测到一个正确的RSSI值需要一定的时间。查看DN505[15]获得RSSI响应时间估算的详细信息。<br>RSSI的值以dBm和1/2 dB给出。<br>RSSI更新速率，fRSSI 依赖于接收滤波带宽和AGCCTRL0.FILTER_LENGTH。</p>
+</blockquote>
+</li>
+<li><p>如果使能PKTCTRL1.APPEND_STATUS，数据包最后的RSSI值自动添加到有效载荷后面的第一个附加字节。 </p>
+</li>
+<li>从RSSI状态寄存器读出的RSSI值时2个补足的数字。下面的程序可以将RSSI转换为完整的功率级别（RSSI_dBm）。<br>1) 读取RSSI状态寄存器<br>2) 将读到的数据从16进制数转换到二进制数（RSSI_dec）<br>3)  如果RSSI_dec≧128，RSSI_dBm =(RSSI_dec - 256)/2 – RSSI_offset 4）<br>4 )  如果RSSI_dec＜128，RSSI_dBm =RSSI_dec /2 – RSSI_offset</li>
+</ul>
+<h3 id="净信道评估（CCA）"><a href="#净信道评估（CCA）" class="headerlink" title="净信道评估（CCA）"></a>净信道评估（CCA）</h3><ul>
+<li>CCA用来显示当前信道是空闲还是繁忙。</li>
+<li>通过设定IOCFGx.GDOx_CFG=0x09，当前的CCA状态在任何一个GDO引脚都可以查看。 </li>
+<li>MCSM1.CCA_MODE用来选择当确定CCA时使用的模式。 </li>
+<li>当CC1101在RX状态时给出STX 或 SFSTXON命令选通，仅能在净信道条件完成才能进入TX或FSTXON状态。</li>
+<li>此外，芯片将仍处于RX状态。如果信道接下来变为可用的，在一个新的命令选通通过SPI接口发送之前，无线不会进入TX或FSTXON状态。这个特性叫做<strong>TX-if-CCA</strong>。<br>可以编程设置4种CCA条件：<ul>
+<li>始终（禁止CCA，总是进入TX）</li>
+<li>如果RSSI低于门限值 </li>
+<li>除非正常接收一个数据包 </li>
+<li>以上两个（RSSI低于门限值和没有正常接收一个数据包）</li>
+</ul>
+</li>
+</ul>
+<h3 id="链路质量指示（LQI）"><a href="#链路质量指示（LQI）" class="headerlink" title="链路质量指示（LQI）"></a>链路质量指示（LQI）</h3><ul>
+<li>信号链路质量指示是一个公制的接收信号的当前质量。</li>
+<li>若 PKTCTRL1.APPEND_STATUS启用，则这个值自动附加在接收数据包的末端。</li>
+<li>这个值也可从 LQI 状态寄存器上读取。<br>LQI 由跟随同步词汇的 64 个符号（头 8 个数据包字节）计算得来。LQI 最好用作连接<br>质量的一个相对的度量，因为这个值决定于调制格式。</li>
+</ul>
+<h3 id="上电启动序列"><a href="#上电启动序列" class="headerlink" title="上电启动序列"></a>上电启动序列</h3><ul>
+<li>当电源给电，系统必须复位。</li>
+<li>通过下面描述的2个序列中的一个来完成，即自动上电复位（POR）或者手动复位。</li>
+<li>自动上电复位或手动复位之后，推荐转换GDO0引脚上输出的信号。</li>
+<li>默认设置是以CLK_XOSC/192的频率输出一个时钟信号。</li>
+<li>然而，为了在TX和RX中优化执行，必须<strong><strong>GD0/1/2 引脚配置</strong></strong>中的配置来配置GDO脚</li>
+</ul>
+<h4 id="自动POR"><a href="#自动POR" class="headerlink" title="自动POR"></a>自动POR</h4><p>CC1101内部包含上电复位电路。最小的需求见表15，完整的上电复位功能必须遵循。当CHIP_RDYn变低内部上电序列完成。在CSn拉低后在SO引脚上可以查看CHIP_RDYn。<br>当CC1101复位完成，芯片将进入IDLE状态，晶振开始运行。如果芯片在上电之后有足够的时间让晶振稳定，在捕获CSn变低之后SO引脚将马上变低。如果在复位完成之前CSn被拉低，SO引脚将首先变高，指示晶振没有稳定，变低之前见下图。<br><img src="http://upload-images.jianshu.io/upload_images/1736256-1dc0e7c8463d0096.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自动POR"></p>
+<h4 id="手动复位"><a href="#手动复位" class="headerlink" title="手动复位"></a>手动复位</h4><p>CC1101上的其它全部复位时使用SRES命令。通过执行这个命令，所有内部寄存器和状态恢复默认，IDLE状态。手动复位序列如下（图 手动复位）： </p>
+<ul>
+<li>设置SCLK=1，SI=0，避免引脚控制模式可能出现的问题。 </li>
+<li>选通CS低/高。 </li>
+<li>保持CS为低，然后拉高，至少40us才可以拉低 </li>
+<li>将CSn拉低等到SO拉低（CHIP_RDYn）。</li>
+<li>在SI线上发布SRES选通。 </li>
+<li>当SO再一次拉低，复位完成，芯片进入IDLE状态<br><img src="http://upload-images.jianshu.io/upload_images/1736256-e692bc860255aa22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="手动复位"><blockquote>
+<p>注意：以上复位程序只需要在电源给电之后。如果用户在这之后想要复位CC1101，只需要执行SRES命令选通</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="常规用途-测试输出控制引脚"><a href="#常规用途-测试输出控制引脚" class="headerlink" title="常规用途/ 测试输出控制引脚"></a>常规用途/ 测试输出控制引脚</h3><p>3 个数字输出引脚 GDO0 和 GDO1 和 GDO2为常规控制脚。它们的功能分别由</p>
+<ul>
+<li><strong>IOCFG0.GDO0_CFG</strong></li>
+<li><strong>IOCFG1.GDO1_CFG</strong></li>
+<li><strong>IOCFG2.GDO3_CFG</strong><br>控制;</li>
+<li>GDO1 和在 SPI 接口上的SO 脚是同一脚，因此这个脚上控制的输出在 CSn 高时才有效。</li>
+<li>GDO1 的默认值为 3状态，当 SPI 接口和其它设备一起使用时这是有效的。</li>
+<li>GOO0 的默认值为125kHz-146kHz时钟输出（XOSC 频率除以 192）。当 XOSC 在重启<br>功率下开启后，使用一个晶体，它就能用来为系统中的 MCU 计时。当 MCU 工作时，通过 IOCFG0.GDO0_CFG，它能改变时钟频率。不会造成时钟波形干扰。</li>
+<li>对 IOCFG0.GDO0_CFG 寄存器写入值 128（0x80h），芯片内模拟温度传感器启用。然后，GDO0 上的电压与温度成比例</li>
+<li>如果IOCFGx.GDOx_CFG的设置小于0x20并且IOCFGx_GDOx_INV为0（1），在SLEEP模式GDO0和GDO2将由硬件置0（1），GDO1将有硬件置1（0）。这些信号将由硬件保持知道CHIP_RDYn变低。 </li>
+<li>如果IOCFGx.GDOx_CFG设置为0x20或更高，GDO引脚在SLEEP状态也工作在设置的状态。例如，如果IOCFG1.GDO1_CFG=0x2E，GDO1在所有状态都是高阻抗。</li>
+</ul>
+<hr>
+<table>
+<thead>
+<tr>
+<th>GDO0_CFG[5:0] GDO1_CFG[5:0] GDO2_CFG[5:0]</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0(0x00)</td>
+<td>与 RX FIFO 关联：当 RX FIFO 在 RXFIFO_THR 上被填充时声明。当 RX FIFO 在RXFIFO THR 之下时被反声明</td>
+</tr>
+<tr>
+<td>1(0x01)</td>
+<td>与 RX FIFO 关联：当 RX FIFO 在 RXFIFO_THR 上被填充或到达数据包末端时声明。当RX FIFO 空时被反声明</td>
+</tr>
+<tr>
+<td>2(0x02)</td>
+<td>与 TX FIFO 关联：当 TX FIFO 在 TXFIFO_THR 上被填充时声明。当 TX FIFO 在TXFIFO THR 之下时被反声明</td>
+</tr>
+<tr>
+<td>3(0x03)</td>
+<td>与 TX FIFO 关联：当 TX FIFO 满时声明。当 TX FIFO 在 TXFIFO_THR 之下为空时被反声明</td>
+</tr>
+<tr>
+<td>4(0x04)</td>
+<td>当 RX FIFO 已溢出时声明。当 FIFO 被淹没时被反声明</td>
+</tr>
+<tr>
+<td>5(0x05)</td>
+<td>当 TX FIFO 已下溢时声明。当 FIFO 被淹没时被反声明</td>
+</tr>
+<tr>
+<td>6(0x06)</td>
+<td>当同步词汇被送出/收到时声明，在数据包末端时反声明。对 RX，当可选地址检测失败或 RX FIFO 溢出时，引脚被反声明。若 TX FIFO 下溢，这个引脚将同样被反声明</td>
+</tr>
+<tr>
+<td>7(0x07)</td>
+<td>当一个数据包被 OK CRC 收到时声明。当第一个字节从 RX FIFO 中读取时反声明</td>
+</tr>
+<tr>
+<td>8(0x08)</td>
+<td>前导质量达到。当 PQI 高于控制 PQT 值时声明</td>
+</tr>
+<tr>
+<td>9(0x09)</td>
+<td>清理信道评估。当 RSSI 等级低于门限时为高（决定于当前 CCA MODE 设置）</td>
+</tr>
+<tr>
+<td>10(0x0A)</td>
+<td>锁定检测器输出</td>
+</tr>
+<tr>
+<td>11(0x0B)</td>
+<td>连续时钟。与同步连续模式下的数据同步。数据在下降沿建立，在 SERIAL CLK 上升沿被读取。</td>
+</tr>
+<tr>
+<td>12(0x0C)</td>
+<td>连续同步数据输出。同步连续模式时使用。在 SERIAL_CLK 上升沿 MCU 必须读 DO。数据在下降沿由 CC2500 建立</td>
+</tr>
+<tr>
+<td>13(0x0D)</td>
+<td>连续透明数据输出。同步连续模式时使用。</td>
+</tr>
+<tr>
+<td>14(0x0E)</td>
+<td>载波感应。当 RSSI 等级低于门限时为高</td>
+</tr>
+<tr>
+<td>15(0x0F)</td>
+<td>CRC OK。上一个 CRC 对比匹配。当进入/重启 RX 模式时清理。</td>
+</tr>
+<tr>
+<td>16(0x10)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>17(0x11)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>18(0x12)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>19(0x13)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>20(0x14)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>21(0x15)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>22(0x16)</td>
+<td>RX_HARD_DATA[1]。能同RX_SYMBOL_TICK一起使用在交替连续RX输出上。</td>
+</tr>
+<tr>
+<td>23(0x17)</td>
+<td>RX_HARD_DATA[1]。能同RX_SYMBOL_TICK一起使用在交替连续RX输出上。</td>
+</tr>
+<tr>
+<td>24(0x18)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>25(0x19)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>26(0x1A)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>27(0x1B)</td>
+<td>1 时 PA PD.PA 开启，0 时功率降低。能用来控制外部 PA 或 RX/TX 开关</td>
+</tr>
+<tr>
+<td>28(0x1C)</td>
+<td>1 时 LNA PD.LNA 开启，0 时功率降低。能用来控制外部 LNA 或 RX/TX 开关</td>
+</tr>
+<tr>
+<td>29(0x1D)</td>
+<td>RX_SYMBOL_TICK。能同RX_HARD_DATA一起使用在交替连续RX输出上。</td>
+</tr>
+<tr>
+<td>30(0x1E)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>31(0x1F)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>32(0x20)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>33(0x21)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>34(0x22)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>35(0x23)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>36(0x24)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>37(0x25)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>38(0x26)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>39(0x27)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>40(0x28)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>41(0x29)</td>
+<td>CHIP RDY</td>
+</tr>
+<tr>
+<td>42(0x2A)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>43(0x2B)</td>
+<td>XOSC STABLE</td>
+</tr>
+<tr>
+<td>44(0x2C)</td>
+<td>保留－测试用</td>
+</tr>
+<tr>
+<td>45(0x2D)</td>
+<td>GDO0 Z EN N。当这个输出为 0 时，GDO0 配置为输入（为连续 TX 数据）</td>
+</tr>
+<tr>
+<td>46(0x2E)</td>
+<td>高阻抗（3-状态）</td>
+</tr>
+<tr>
+<td>47(0x2F)</td>
+<td>HW 到 0（HW1 同 INV 信号一起完成）</td>
+</tr>
+<tr>
+<td>48(0x30)</td>
+<td>CLK XOSC/1</td>
+</tr>
+<tr>
+<td>49(0x31)</td>
+<td>CLK XOSC/1.5</td>
+</tr>
+<tr>
+<td>50(0x32)</td>
+<td>CLK XOSC/2</td>
+</tr>
+<tr>
+<td>51(0x33)</td>
+<td>CLK XOSC/3</td>
+</tr>
+<tr>
+<td>52(0x34)</td>
+<td>CLK XOSC/4</td>
+</tr>
+<tr>
+<td>53(0x35)</td>
+<td>CLK XOSC/6</td>
+</tr>
+<tr>
+<td>54(0x36)</td>
+<td>CLK XOSC/8</td>
+</tr>
+<tr>
+<td>55(0x37)</td>
+<td>CLK XOSC/12</td>
+</tr>
+<tr>
+<td>56(0x38)</td>
+<td>CLK XOSC/16</td>
+</tr>
+<tr>
+<td>57(0x39)</td>
+<td>CLK XOSC/24</td>
+</tr>
+<tr>
+<td>58(0x3A)</td>
+<td>CLK XOSC/32</td>
+</tr>
+<tr>
+<td>59(0x3B)</td>
+<td>CLK XOSC/48</td>
+</tr>
+<tr>
+<td>60(0x3C)</td>
+<td>CLK XOSC/64</td>
+</tr>
+<tr>
+<td>61(0x3D)</td>
+<td>CLK XOSC/96</td>
+</tr>
+<tr>
+<td>62(0x3E)</td>
+<td>CLK XOSC/128</td>
+</tr>
+<tr>
+<td>63(0x3F)</td>
+<td>CLK XOSC/192</td>
+</tr>
+</tbody>
+</table>
+<h3 id="寄存器配置"><a href="#寄存器配置" class="headerlink" title="寄存器配置"></a>寄存器配置</h3><p>CC1101的配置通过编程8位寄存器来实现</p>
+<h4 id="命令寄存器-12个"><a href="#命令寄存器-12个" class="headerlink" title="命令寄存器(12个)"></a>命令寄存器(12个)</h4><p>访问这些寄存器将会发起内部状态或模式的改变</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x30</td>
+<td>SRES</td>
+<td>复位芯片</td>
+</tr>
+<tr>
+<td>0x31</td>
+<td>SFSTXON</td>
+<td>使能和校准频率合成器（如果MCSM0.FS_AUTOCAL=1）。如果在RX(使能CCA)，仅当合成器运行时转到等待状态（RX/TX快速转换）</td>
+</tr>
+<tr>
+<td>0x32</td>
+<td>SXOFF</td>
+<td>关闭晶振 </td>
+</tr>
+<tr>
+<td>0x33</td>
+<td>SCAL</td>
+<td>校准频率合成器并关闭。SCAL可以从IDLE模式执行而不需要设置收到校准模式（MCSM0.FS_AUTOCAL=0）。 </td>
+</tr>
+<tr>
+<td>0x34</td>
+<td>SRX</td>
+<td>使能RX。如果来自IDLE状态并且MCSM0.FS_AUTOCAL=1首先执行校准。 </td>
+</tr>
+<tr>
+<td>0x35</td>
+<td>STX</td>
+<td>在IDLE状态：使能TX。如果MCSM0.FS_AUTOCAL=1首先执行校准。如果在RX状态并使能CCA仅在信道为空时转到TX。 </td>
+</tr>
+<tr>
+<td>0x36</td>
+<td>SIDLE</td>
+<td>离开RX/TX模式，关闭频率合成器，如果可用离开WOR。</td>
+</tr>
+<tr>
+<td>0x38</td>
+<td>SWOR</td>
+<td>如果WORCTRL.RC_PD=0像Section19.5的描述一样开始自动RX轮询序列（WOR）。 </td>
+</tr>
+<tr>
+<td>0x39</td>
+<td>SPWD</td>
+<td>当CSn拉高进入掉电模式。 </td>
+</tr>
+<tr>
+<td>0x3A</td>
+<td>SFRX</td>
+<td>清除RX FIFO缓冲器。只在IDLE 或 RXFIFO_OVERFLOW状态运行SFRX。</td>
+</tr>
+<tr>
+<td>0x3B</td>
+<td>SFTX</td>
+<td>清除TX FIFO缓冲器。只在IDLE 或 TXFIFO_UNDERFLOW状态运行SFTX。 </td>
+</tr>
+<tr>
+<td>0x3C</td>
+<td>SWORRST</td>
+<td>复位实时时钟到Event1值。 </td>
+</tr>
+<tr>
+<td>0x3D</td>
+<td>SMOP</td>
+<td>无操作，可以用来访问获取芯片状态字节。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="配置寄存器"><a href="#配置寄存器" class="headerlink" title="配置寄存器"></a>配置寄存器</h4><hr>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>寄存器</th>
+<th>描述</th>
+<th>保持在休眠状态中</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>IOCFG2</td>
+<td>GDO2输出引脚配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x01</td>
+<td>IOCFG1</td>
+<td>GDO1输出引脚配置</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x02</td>
+<td>IOCFG0</td>
+<td>GDO0输出引脚配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x03</td>
+<td>FIFOTHR</td>
+<td>RX FIFO和TX FIFO门限</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>SYNC1</td>
+<td>同步字，高字节</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x05</td>
+<td>SYNC0</td>
+<td>同步字，低字节</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x06</td>
+<td>PKTLEN</td>
+<td>数据包长度</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x07</td>
+<td>PKTCTRL1</td>
+<td>数据包自动控制</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>PKTCTRL0</td>
+<td>数据包自动控制</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x09</td>
+<td>ADDR</td>
+<td>设备地址</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x0A</td>
+<td>CHANNR</td>
+<td>信道号</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x0B</td>
+<td>FSCTRL1</td>
+<td>频率合成器控制</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>FSCTRL0</td>
+<td>频率合成器控制</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x0D</td>
+<td>FREQ2</td>
+<td>频率控制字，高字节</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x0E</td>
+<td>FREQ1</td>
+<td>频率控制字，中间字节</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x0F</td>
+<td>FREQ0</td>
+<td>频率控制字，低字节</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>MDMCFG4</td>
+<td>Modem配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x11</td>
+<td>MDMCFG3</td>
+<td>Modem配置</td>
+<td>是 、</td>
+</tr>
+<tr>
+<td>0x12</td>
+<td>MDMCFG2</td>
+<td>Modem配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x13</td>
+<td>MDMCFG1</td>
+<td>Modem配置</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>MDMCFG0</td>
+<td>Modem配置</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x15</td>
+<td>DEVIATN</td>
+<td>Modem背离设定</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x16</td>
+<td>MCSM2</td>
+<td>主无线控制状态机配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x17</td>
+<td>MCSM1</td>
+<td>主无线控制状态机配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>MCSM0</td>
+<td>主无线控制状态机配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x19</td>
+<td>FOCCFG</td>
+<td>频率偏移补偿配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x1A</td>
+<td>BSCFG</td>
+<td>位同步配置</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x1B</td>
+<td>AGCTRL2</td>
+<td>AGC控制</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x1C</td>
+<td>AGCTRL1</td>
+<td>AGC控制</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x1D</td>
+<td>AGCTRL0</td>
+<td>AGC控制</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x1E</td>
+<td>WOREVT1</td>
+<td>事件0超时高字节</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x1F</td>
+<td>WOREVT0</td>
+<td>事件0超时低字节</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x20</td>
+<td>WORCTRL</td>
+<td>WOR控制</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x21</td>
+<td>FREND1</td>
+<td>前端RX配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x22</td>
+<td>FREND0</td>
+<td>前端TX配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x23</td>
+<td>FSCAL3</td>
+<td>频率合成器校准</td>
+<td>是</td>
+</tr>
+<tr>
+<td>0x24</td>
+<td>SCAL2</td>
+<td>频率合成器校准</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x25</td>
+<td>SCAL1</td>
+<td>频率合成器校准</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x26</td>
+<td>SCAL0</td>
+<td>频率合成器校准</td>
+<td>是</td>
+</tr>
+<tr>
+<td> 0x27</td>
+<td>RCCTRL1</td>
+<td>RC振荡器配置</td>
+<td>是</td>
+</tr>
+<tr>
+<td> 0x28</td>
+<td>RCCTRL0</td>
+<td>RC振荡器配置</td>
+<td>是 </td>
+</tr>
+<tr>
+<td>0x29</td>
+<td>FSTEST</td>
+<td>频率合成器校准控制</td>
+<td>否</td>
+</tr>
+<tr>
+<td> 0x2A</td>
+<td>PTEST</td>
+<td>产品测试</td>
+<td>否 </td>
+</tr>
+<tr>
+<td>0x2B</td>
+<td>AGCTEST</td>
+<td>AGC测试</td>
+<td>否 </td>
+</tr>
+<tr>
+<td>0x2C</td>
+<td>TEST2</td>
+<td>各方面测试设定</td>
+<td>否 </td>
+</tr>
+<tr>
+<td>0x2D</td>
+<td>TEST1</td>
+<td>各方面测试设定</td>
+<td>否 </td>
+</tr>
+<tr>
+<td>0x2E</td>
+<td>TEST0</td>
+<td>各方面测试设定</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<h4 id="状态寄存器总览"><a href="#状态寄存器总览" class="headerlink" title="状态寄存器总览"></a>状态寄存器总览</h4><hr>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>寄存器</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x30（0xF0）</td>
+<td>PARTNUM</td>
+<td>CC1101零件号 </td>
+</tr>
+<tr>
+<td>0x31（0xF1）</td>
+<td>VERSION</td>
+<td>当前版本号 </td>
+</tr>
+<tr>
+<td>0x32（0xF2）</td>
+<td>FREQEST</td>
+<td>频率偏移评估</td>
+</tr>
+<tr>
+<td>0x33（0xF3）</td>
+<td>LQI</td>
+<td>解调器链路质量估计 </td>
+</tr>
+<tr>
+<td>0x34（0xF4）</td>
+<td>RSSI</td>
+<td>接收信号强度指示 </td>
+</tr>
+<tr>
+<td>0x35（0xF5）</td>
+<td>MARCSTATE</td>
+<td>控制状态机状态 </td>
+</tr>
+<tr>
+<td>0x36（0xF6）</td>
+<td>WORTIME1</td>
+<td>WOR定时器高字节</td>
+</tr>
+<tr>
+<td>0x37（0xF7）</td>
+<td>WORTIME0</td>
+<td>WOR定时器低字节 </td>
+</tr>
+<tr>
+<td>0x38（0xF8）</td>
+<td>PKTSTATUS</td>
+<td>当前GDOx状态和数据包状态</td>
+</tr>
+<tr>
+<td>0x39（0xF9）</td>
+<td>VCO_VC_DAC</td>
+<td>PLL校准模块的当前设置 </td>
+</tr>
+<tr>
+<td>0x3A（0xFA）</td>
+<td>TXBYTES</td>
+<td>下溢和TX FIFO中的字节数 </td>
+</tr>
+<tr>
+<td>0x3B（0xFB）</td>
+<td>RXBYTES</td>
+<td>上溢和RX FIFO中的字节数 </td>
+</tr>
+<tr>
+<td>0x3C（0xFC）</td>
+<td>RCCTRL1_STATUS</td>
+<td>上一次RC振荡器校准结果</td>
+</tr>
+<tr>
+<td>0x3D（0xFD）</td>
+<td>RCCTRL0_STATUS</td>
+<td>上一次RC振荡器校准结果</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://upload-images.jianshu.io/upload_images/1736256-32d8e78d15cce521.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="寄存器总图"></p>
+<p>参考：<a href="https://wenku.baidu.com/view/c2b0081b227916888486d769.html" target="_blank" rel="external">https://wenku.baidu.com/view/c2b0081b227916888486d769.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>你的支持使我不断前进！Enjoy it ? Donate me !</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/1736256-3ba20f6256d1132d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/1736256-6b41a0e538d4aa27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/无线/" rel="tag"># 无线</a>
+          
+            <a href="/tags/433MHZ/" rel="tag"># 433MHZ</a>
+          
+            <a href="/tags/cc1101/" rel="tag"># cc1101</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/26/Github-Blog-搭建入门/" rel="prev" title="Github Blog 搭建入门">
+                Github Blog 搭建入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+               alt="Alex.Lin" />
+          <p class="site-author-name" itemprop="name">Alex.Lin</p>
+           
+              <p class="site-description motion-element" itemprop="description">Write the code Change the world</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ilxj" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2011xiaojun" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/3add4c9179b3" target="_blank" title="JianShu">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  JianShu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-vcard"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://upload-images.jianshu.io/upload_images/1736256-4c85a3f42e295e7e.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" title="WeChat">
+                  
+                    <i class="fa fa-fw fa-weixin"></i>
+                  
+                  WeChat
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com/" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://chuangzaoshi.com/" title="创造狮" target="_blank">创造狮</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#产品描述"><span class="nav-number">1.</span> <span class="nav-text">产品描述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作频段"><span class="nav-number">1.1.</span> <span class="nav-text">工作频段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#芯片引脚"><span class="nav-number">1.2.</span> <span class="nav-text">芯片引脚</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引脚说明"><span class="nav-number">1.2.1.</span> <span class="nav-text">引脚说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通讯方式以及配置方式—SPI"><span class="nav-number">1.3.</span> <span class="nav-text">通讯方式以及配置方式—SPI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SPI-读写注意事项"><span class="nav-number">1.3.1.</span> <span class="nav-text">SPI 读写注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#芯片状态字节"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">芯片状态字节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器访问"><span class="nav-number">1.3.2.</span> <span class="nav-text">寄存器访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令选通-command-strobes"><span class="nav-number">1.3.3.</span> <span class="nav-text">命令选通(command strobes)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FIFO访问"><span class="nav-number">1.3.4.</span> <span class="nav-text">FIFO访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PATABLE-访问"><span class="nav-number">1.3.5.</span> <span class="nav-text">PATABLE 访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本控制和状态脚"><span class="nav-number">1.3.6.</span> <span class="nav-text">基本控制和状态脚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据包处理的硬件支持"><span class="nav-number">1.3.7.</span> <span class="nav-text">数据包处理的硬件支持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#发送模式下"><span class="nav-number">1.3.7.1.</span> <span class="nav-text">发送模式下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接收模式下"><span class="nav-number">1.3.7.2.</span> <span class="nav-text">接收模式下</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据包格式"><span class="nav-number">1.3.8.</span> <span class="nav-text">数据包格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据包长度"><span class="nav-number">1.3.9.</span> <span class="nav-text">数据包长度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#固定数据包长度"><span class="nav-number">1.3.9.1.</span> <span class="nav-text">固定数据包长度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可变数据包长度"><span class="nav-number">1.3.9.2.</span> <span class="nav-text">可变数据包长度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#可变长数据包收发逻辑"><span class="nav-number">1.3.9.2.1.</span> <span class="nav-text">可变长数据包收发逻辑</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#无限数据包长度模式-大于255个字节"><span class="nav-number">1.3.9.3.</span> <span class="nav-text">无限数据包长度模式(大于255个字节)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#无限数据包长度收发逻辑"><span class="nav-number">1.3.9.3.1.</span> <span class="nav-text">无限数据包长度收发逻辑</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收模式下的数据包过滤"><span class="nav-number">1.3.10.</span> <span class="nav-text">接收模式下的数据包过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#地址过滤"><span class="nav-number">1.3.10.1.</span> <span class="nav-text">地址过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大长度过滤"><span class="nav-number">1.3.10.2.</span> <span class="nav-text">最大长度过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CRC过滤"><span class="nav-number">1.3.10.3.</span> <span class="nav-text">CRC过滤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送模式下的数据包处理"><span class="nav-number">1.3.11.</span> <span class="nav-text">发送模式下的数据包处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收模式下的数据包处理"><span class="nav-number">1.3.12.</span> <span class="nav-text">接收模式下的数据包处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCU数据包处理"><span class="nav-number">1.3.13.</span> <span class="nav-text">MCU数据包处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RSSI"><span class="nav-number">1.3.14.</span> <span class="nav-text">RSSI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#净信道评估（CCA）"><span class="nav-number">1.3.15.</span> <span class="nav-text">净信道评估（CCA）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链路质量指示（LQI）"><span class="nav-number">1.3.16.</span> <span class="nav-text">链路质量指示（LQI）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上电启动序列"><span class="nav-number">1.3.17.</span> <span class="nav-text">上电启动序列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自动POR"><span class="nav-number">1.3.17.1.</span> <span class="nav-text">自动POR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手动复位"><span class="nav-number">1.3.17.2.</span> <span class="nav-text">手动复位</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常规用途-测试输出控制引脚"><span class="nav-number">1.3.18.</span> <span class="nav-text">常规用途/ 测试输出控制引脚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#寄存器配置"><span class="nav-number">1.3.19.</span> <span class="nav-text">寄存器配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#命令寄存器-12个"><span class="nav-number">1.3.19.1.</span> <span class="nav-text">命令寄存器(12个)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置寄存器"><span class="nav-number">1.3.19.2.</span> <span class="nav-text">配置寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#状态寄存器总览"><span class="nav-number">1.3.19.3.</span> <span class="nav-text">状态寄存器总览</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex.Lin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140501"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

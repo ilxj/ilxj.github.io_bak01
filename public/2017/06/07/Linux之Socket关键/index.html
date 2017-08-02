@@ -1,0 +1,902 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Linux,网络," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、Socket 属性设置函数12int getsockopt(int sockfd, int level, int optname,void *optval, socklen_t *optlen);int setsockopt(int sockfd, int level, int optname,const void *optval, socklen_t optlen);
+解释:setsocko">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux之Socket关键">
+<meta property="og:url" content="http://lxj-life.com/2017/06/07/Linux之Socket关键/index.html">
+<meta property="og:site_name" content="AlexLin">
+<meta property="og:description" content="一、Socket 属性设置函数12int getsockopt(int sockfd, int level, int optname,void *optval, socklen_t *optlen);int setsockopt(int sockfd, int level, int optname,const void *optval, socklen_t optlen);
+解释:setsocko">
+<meta property="og:updated_time" content="2017-08-01T16:49:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux之Socket关键">
+<meta name="twitter:description" content="一、Socket 属性设置函数12int getsockopt(int sockfd, int level, int optname,void *optval, socklen_t *optlen);int setsockopt(int sockfd, int level, int optname,const void *optval, socklen_t optlen);
+解释:setsocko">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lxj-life.com/2017/06/07/Linux之Socket关键/"/>
+
+
+
+
+
+  <title> Linux之Socket关键 | AlexLin </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?32bb077273d902ca71df67ccfe276208";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AlexLin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lxj-life.com/2017/06/07/Linux之Socket关键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex.Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlexLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux之Socket关键
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T23:10:11+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="一、Socket-属性设置函数"><a href="#一、Socket-属性设置函数" class="headerlink" title="一、Socket 属性设置函数"></a>一、Socket 属性设置函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int getsockopt(int sockfd, int level, int optname,void *optval, socklen_t *optlen);</div><div class="line">int setsockopt(int sockfd, int level, int optname,const void *optval, socklen_t optlen);</div></pre></td></tr></table></figure>
+<p>解释:<strong>setsockopt(int sockfd, int level, int optname,const void *optval, socklen_t optlen)</strong><br><a id="more"></a></p>
+<ul>
+<li><strong>sockfd(套接字):</strong> 指向一个打开的套接口描述字</li>
+<li><strong>level(级别):</strong> 指定选项代码的类型</li>
+<li><ul>
+<li><strong>SOL_SOCKET:</strong> 基本套接口</li>
+</ul>
+</li>
+<li><ul>
+<li><strong>IPPROTO_IP:</strong> IPv4套接口</li>
+</ul>
+</li>
+<li><ul>
+<li><strong>IPPROTO_IPV6:</strong> IPv6套接口</li>
+</ul>
+</li>
+<li><ul>
+<li><strong>IPPROTO_TCP:</strong> TCP套接口</li>
+</ul>
+</li>
+<li><strong>optname(选项名):</strong> 选项名称</li>
+<li><strong>optval(选项值):</strong> 是一个指向变量的指针 类型：整形，套接口结构， 其他结构类型:linger{}, timeval{ }<br>该值有两种类型，分别是布尔型选项，允许或禁止一种特性；另一种是整形或结构选项。<br>允许一个布尔型选项，则将optval指向非零整形数；<br>禁止一个选项optval指向一个等于零的整形数。对于布尔型选项，optlen应等于sizeof(int)；<br>对其他选项，optval指向包含所需选项的整形数或结构，而optlen则为整形数或结构的长度。</li>
+<li><strong>optlen(选项长度):</strong> optval 的大小</li>
+</ul>
+<h2 id="二、Socket-端口复用-SO-REUSEADDR"><a href="#二、Socket-端口复用-SO-REUSEADDR" class="headerlink" title="二、Socket 端口复用(SO_REUSEADDR)"></a>二、Socket 端口复用(SO_REUSEADDR)</h2><blockquote>
+<p>一个网络应用程序只能绑定一个端口( 一个套接字只能绑定一个端口 )。</p>
+</blockquote>
+<ol>
+<li><em>端口复用允许在一个应用程序可以把 n 个套接字绑在一个端口上而不出错。</em></li>
+<li><em>端口复用真正的用处主要在于服务器编程：当服务器需要重启时，经常会碰到端口尚未完全关闭的情况，这时如果不设置端口复用，则无法完成绑定，因为端口还处于被别的套接口绑定的状态之中。</em></li>
+</ol>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><blockquote>
+<p><strong>SO_REUSEADDR可以用在以下四种情况下。 (摘自《Unix网络编程》卷一，即UNPv1)</strong></p>
+</blockquote>
+<ol>
+<li>当有一个有相同本地地址和端口的socket1处于TIME_WAIT状态时，而你启动的程序的socket2要占用该地址和端口，你的程序就要用到该选项。</li>
+<li>SO_REUSEADDR允许同一port上启动同一服务器的多个实例(多个进程)。但每个实例绑定的IP地址是不能相同的。在有多块网卡或用IP Alias技术的机器可以测试这种情况。</li>
+<li>SO_REUSEADDR允许单个进程绑定相同的端口到多个socket上，但每个socket绑定的ip地址不同。这和2很相似，区别请看UNPv1。</li>
+<li>SO_REUSEADDR允许完全相同的地址和端口的重复绑定。但这只用于UDP的多播，不用于TCP。</li>
+</ol>
+<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">int opt = 1;</div><div class="line">// sockfd为需要端口复用的套接字</div><div class="line">setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&amp;opt, sizeof(opt));</div></pre></td></tr></table></figure>
+<h2 id="三、Socket-超时设置-SO-SNDTIMO-SO-RCVTIMEO"><a href="#三、Socket-超时设置-SO-SNDTIMO-SO-RCVTIMEO" class="headerlink" title="三、Socket 超时设置(SO_SNDTIMO/SO_RCVTIMEO)"></a>三、Socket 超时设置(SO_SNDTIMO/SO_RCVTIMEO)</h2><p><strong>SO_SNDTIMO :</strong> 用于设置发送和连接超时<br><strong>SO_RCVTIMEO:</strong> 用于设置接收超时<br><strong>例 子</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">//3s超时设置</div><div class="line">struct timeval timeout = &#123;3, 0&#125;;</div><div class="line">//socket设置发送超时</div><div class="line">setsockopt(socket，SOL_SOCKET,SO_SNDTIMEO，(char *)&amp;timeout,sizeof(struct timeval));</div><div class="line"></div><div class="line">//socket设置接收超时</div><div class="line">setsockopt(socket，SOL_SOCKET,SO_RCVTIMEO，(char *)&amp;timeout,sizeof(struct timeval));</div><div class="line"></div><div class="line">//socket设置连接超时</div><div class="line">setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &amp;timeo, len);</div><div class="line">addr.sin_family = AF_INET;</div><div class="line">addr.sin_addr.s_addr = inet_addr(argv[1]);</div><div class="line">addr.sin_port = htons(atoi(argv[2]));</div><div class="line">if (connect(fd, (struct sockaddr*)&amp;addr, sizeof(addr)) == -1) &#123;</div><div class="line">    if (errno == EINPROGRESS) &#123;</div><div class="line">            fprintf(stderr, &quot;timeout/n&quot;);</div><div class="line">            return -1;</div><div class="line">    &#125;</div><div class="line">    perror(&quot;connect&quot;);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="四、Socket-心跳设置-SO-KEEPALIVE"><a href="#四、Socket-心跳设置-SO-KEEPALIVE" class="headerlink" title="四、Socket 心跳设置(SO_KEEPALIVE)"></a>四、Socket 心跳设置(SO_KEEPALIVE)</h2><blockquote>
+<p>在《UNIX网络编程第1卷》中也有详细的阐述：<br>SO_KEEPALIVE 保持连接检测对方主机是否崩溃，避免（服务器）永远阻塞于TCP连接的输入。设置该选项后，如果2小时内在此套接口的任一方向都没有数据交换，TCP就自 动给对方 发一个保持存活探测分节(keepalive probe)。这是一个对方必须响应的TCP分节.它会导致以下三种情况：对方接收一切正常：以期望的ACK响应。2小时后，TCP将发出另一个探测分 节。对方已崩溃且已重新启动：以RST响应。套接口的待处理错误被置为ECONNRESET，套接 口本身则被关闭。对方无任何响应：源自berkeley的TCP发送另外8个探测分节，相隔75秒一个，试图得到一个响应。在发出第一个探测分节11分钟 15秒后若仍无响应就放弃。套接口的待处理错误被置为ETIMEOUT，套接口本身则被关闭。如ICMP错误是“host unreachable(主机不可达)”，说明对方主机并没有崩溃，但是不可达，这种情况下待处理错误被置为 EHOSTUNREACH。</p>
+</blockquote>
+<p><strong>简单来说</strong><br><em>TCP_KEEPALIVE</em>选项只是一个开关，Linux中默认的Keepalive的选项如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$sudo sysctl -a | grep keepalive</div><div class="line">net.ipv4.tcp_keepalive_time = 7200</div><div class="line">net.ipv4.tcp_keepalive_probes = 9</div><div class="line">net.ipv4.tcp_keepalive_intvl = 75</div></pre></td></tr></table></figure></p>
+<p>上文中的keepalive选项表示如果一个连接上7200s后没有任何数据发送，则设置了这个选项的本端向对端发送keepalive保活报文，它会有如下三种结果：</p>
+<ul>
+<li>对端回复ACK。则本端TCP认为该连接依然存活。继续等7200s后再发送keepalive报文。</li>
+<li>对端回复RESET。说明对端进程已经重启，本端的应用程序应该关闭该连接。</li>
+<li>没有对端的任何回复。则本端做重试，如果重试9次（前后重试间隔为75秒）仍然不可达，则向应用程序返回错误信息，ETIMEOUT（无任何应答）或EHOST</li>
+</ul>
+<h3 id="开启keepalive机制"><a href="#开启keepalive机制" class="headerlink" title="开启keepalive机制"></a>开启keepalive机制</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">keepAlive = 1;</div><div class="line">Setsockopt(listenfd, SOL_SOCKET, SO_KEEPALIVE, (void*)&amp;keepAlive, sizeof(keepAlive));</div></pre></td></tr></table></figure>
+<h3 id="修改过keepalive-时间"><a href="#修改过keepalive-时间" class="headerlink" title="修改过keepalive 时间"></a>修改过keepalive 时间</h3><p>如果我们不能接受如此之长的等待时间，从TCP-Keepalive-HOWTO上可以知道一共有两种方式可以设置，<br>一种是修改内核关于网络方面的 配置参数；<br>另外一种就是SOL_TCP字段的TCP_KEEPIDLE， TCP_KEEPINTVL， TCP_KEEPCNT三个选项。</p>
+<ul>
+<li>TCP_KEEPIDLE : 多长时间不活跃，就开始发探测包</li>
+<li>TCP_KEEPINTVL: 两个探测包之间的间隔</li>
+<li>TCP_KEEPCNT  : 发多少次探测包后没响应认为是断开<br><strong>例子</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//连接上之后100s内没发送数据，则发探测包，每个探测包间隔10s,连续10次没收到响应认为断开</div><div class="line">int                 keepIdle = 100;</div><div class="line">int                 keepInterval = 10;</div><div class="line">int                 keepCount = 10;</div><div class="line">Setsockopt(listenfd, SOL_TCP, TCP_KEEPIDLE, (void *)&amp;keepIdle, sizeof(keepIdle));</div><div class="line">Setsockopt(listenfd, SOL_TCP, TCP_KEEPINTVL, (void *)&amp;keepInterval, sizeof(keepInterval));</div><div class="line">Setsockopt(listenfd, SOL_TCP, TCP_KEEPCNT, (void *)&amp;keepCount, sizeof(keepCount));</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="五、Socket-其他选项名"><a href="#五、Socket-其他选项名" class="headerlink" title="五、Socket 其他选项名"></a>五、Socket 其他选项名</h2><ul>
+<li>SO_RCVBUF             : int型  设置接收缓冲区的保留大小。</li>
+<li>SO_SNDBUF             : int型  设置发送缓冲区的保留大小。</li>
+<li>TCP_NODELAY           : bool型 设置是否开启Nagle算法。</li>
+<li>SO_EXCLUSIVEADDRUSE   : bool型 同一个端口不能别的进程使用.</li>
+</ul>
+<h2 id="六、常识"><a href="#六、常识" class="headerlink" title="六、常识"></a>六、常识</h2><ul>
+<li>每个套接口都有一个发送缓冲区和一个接收缓冲区。</li>
+<li>接收缓冲区被TCP和UDP用来将接收到的数据一直保存到由应用进程来读。</li>
+<li>TCP：TCP通告另一端的窗口大小。</li>
+<li>TCP套接口接收缓冲区不可能溢出，因为对方不允许发出超过所通告窗口大小的数据。这就是TCP的流量控制，如果对方无视窗口大小而发出了超过宙口大小的数据，则接 收方TCP将丢弃它。</li>
+<li>UDP：当接收到的数据报装不进套接口接收缓冲区时，此数据报就被丢弃。UDP是没有 流量控制的；快的发送者可以很容易地就淹没慢的接收者，导致接收方的UDP丢弃数据报。</li>
+</ul>
+<p>每个套接口都有一个接收低潮限度和一个发送低潮限度。<br>它们是函数selectt使用的，接收低潮限度是让select返回“可读”而在套接口接收缓冲区中必须有的数据总量。 对于一个TCP或UDP套接口，此值缺省为1。发送低潮限度是让select返回“可写” 而在套接口发送缓冲区中必须有的可用空间。对于TCP套接口，此值常缺省为2048。 对于UDP使用低潮限度， 由于其发送缓冲区中可用空间的字节数是从不变化的，只要 UDP套接口发送缓冲区大小大于套接口的低潮限度，这样的UDP套接口就总是可写的。 UDP没有发送缓冲区，只有发送缓冲区的大小。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>你的支持使我不断前进！Enjoy it ? Donate me !</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/1736256-3ba20f6256d1132d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/1736256-6b41a0e538d4aa27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/编辑器介绍/" rel="next" title="编辑器介绍">
+                <i class="fa fa-chevron-left"></i> 编辑器介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/01/TcpDump/" rel="prev" title="tcpDump">
+                tcpDump <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+               alt="Alex.Lin" />
+          <p class="site-author-name" itemprop="name">Alex.Lin</p>
+           
+              <p class="site-description motion-element" itemprop="description">Write the code Change the world</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ilxj" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2011xiaojun" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/3add4c9179b3" target="_blank" title="JianShu">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  JianShu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-vcard"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://upload-images.jianshu.io/upload_images/1736256-4c85a3f42e295e7e.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" title="WeChat">
+                  
+                    <i class="fa fa-fw fa-weixin"></i>
+                  
+                  WeChat
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com/" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://chuangzaoshi.com/" title="创造狮" target="_blank">创造狮</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Socket-属性设置函数"><span class="nav-number">1.</span> <span class="nav-text">一、Socket 属性设置函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Socket-端口复用-SO-REUSEADDR"><span class="nav-number">2.</span> <span class="nav-text">二、Socket 端口复用(SO_REUSEADDR)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">2.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现方法"><span class="nav-number">2.2.</span> <span class="nav-text">实现方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Socket-超时设置-SO-SNDTIMO-SO-RCVTIMEO"><span class="nav-number">3.</span> <span class="nav-text">三、Socket 超时设置(SO_SNDTIMO/SO_RCVTIMEO)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、Socket-心跳设置-SO-KEEPALIVE"><span class="nav-number">4.</span> <span class="nav-text">四、Socket 心跳设置(SO_KEEPALIVE)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开启keepalive机制"><span class="nav-number">4.1.</span> <span class="nav-text">开启keepalive机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改过keepalive-时间"><span class="nav-number">4.2.</span> <span class="nav-text">修改过keepalive 时间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、Socket-其他选项名"><span class="nav-number">5.</span> <span class="nav-text">五、Socket 其他选项名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、常识"><span class="nav-number">6.</span> <span class="nav-text">六、常识</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex.Lin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140501"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

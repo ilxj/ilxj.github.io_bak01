@@ -1,0 +1,974 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具,Linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="查看机器是多少位
+方法一12&amp;gt;&amp;gt;&amp;gt;$ getconf LONG_BIT&amp;gt;&amp;gt;&amp;gt;$ 64
+方法二12&amp;gt;&amp;gt;&amp;gt;$ uname -a&amp;gt;&amp;gt;&amp;gt;$ Linux alex-virtual-machine 3.16.0-30-generic #40~14.04.1-Ubuntu SMP Thu Jan 15 17:43:14 UTC 2015 x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux之实用技能">
+<meta property="og:url" content="http://lxj-life.com/2017/06/06/Linux之实用技能 /index.html">
+<meta property="og:site_name" content="AlexLin">
+<meta property="og:description" content="查看机器是多少位
+方法一12&amp;gt;&amp;gt;&amp;gt;$ getconf LONG_BIT&amp;gt;&amp;gt;&amp;gt;$ 64
+方法二12&amp;gt;&amp;gt;&amp;gt;$ uname -a&amp;gt;&amp;gt;&amp;gt;$ Linux alex-virtual-machine 3.16.0-30-generic #40~14.04.1-Ubuntu SMP Thu Jan 15 17:43:14 UTC 2015 x">
+<meta property="og:updated_time" content="2017-08-01T16:49:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux之实用技能">
+<meta name="twitter:description" content="查看机器是多少位
+方法一12&amp;gt;&amp;gt;&amp;gt;$ getconf LONG_BIT&amp;gt;&amp;gt;&amp;gt;$ 64
+方法二12&amp;gt;&amp;gt;&amp;gt;$ uname -a&amp;gt;&amp;gt;&amp;gt;$ Linux alex-virtual-machine 3.16.0-30-generic #40~14.04.1-Ubuntu SMP Thu Jan 15 17:43:14 UTC 2015 x">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lxj-life.com/2017/06/06/Linux之实用技能 /"/>
+
+
+
+
+
+  <title> Linux之实用技能 | AlexLin </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?32bb077273d902ca71df67ccfe276208";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AlexLin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lxj-life.com/2017/06/06/Linux之实用技能 /">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex.Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlexLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux之实用技能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-06T22:29:11+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h2 id="查看机器是多少位"><a href="#查看机器是多少位" class="headerlink" title="查看机器是多少位"></a>查看机器是多少位</h2><hr>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;$ getconf LONG_BIT</div><div class="line">&gt;&gt;&gt;$ 64</div></pre></td></tr></table></figure>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;$ uname -a</div><div class="line">&gt;&gt;&gt;$ Linux alex-virtual-machine 3.16.0-30-generic #40~14.04.1-Ubuntu SMP Thu Jan 15 17:43:14 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;$ uname -p</div><div class="line">&gt;&gt;&gt;$ x86_64</div></pre></td></tr></table></figure>
+<h2 id="实用命令"><a href="#实用命令" class="headerlink" title="实用命令"></a>实用命令</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">wc</td>
+<td>统计文本中行数、字数、字符数</td>
+</tr>
+<tr>
+<td style="text-align:center">stat</td>
+<td>显示指定文件的详细信息，比ls更详细</td>
+</tr>
+<tr>
+<td style="text-align:center">who</td>
+<td>显示在线登陆用户</td>
+</tr>
+<tr>
+<td style="text-align:center">whoami</td>
+<td>显示当前操作用户</td>
+</tr>
+<tr>
+<td style="text-align:center">hostname</td>
+<td>显示主机名</td>
+</tr>
+<tr>
+<td style="text-align:center">uname</td>
+<td>显示系统信息</td>
+</tr>
+<tr>
+<td style="text-align:center">top</td>
+<td>动态显示当前耗费资源最多进程信息</td>
+</tr>
+<tr>
+<td style="text-align:center">ps</td>
+<td>显示瞬间进程状态 ps -aux</td>
+</tr>
+<tr>
+<td style="text-align:center">du</td>
+<td>查看目录大小 du -h /home带有单位显示目录信息</td>
+</tr>
+<tr>
+<td style="text-align:center">df</td>
+<td>查看磁盘大小 df -h 带有单位显示磁盘信息</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Linux-代码文件大小、行数、字节数统计"><a href="#Linux-代码文件大小、行数、字节数统计" class="headerlink" title="Linux 代码文件大小、行数、字节数统计"></a>Linux 代码文件大小、行数、字节数统计</h2><h3 id="命令解释"><a href="#命令解释" class="headerlink" title="命令解释"></a>命令解释</h3><p><strong><em>语法：wc [选项] 文件…</em></strong></p>
+<blockquote>
+<p>说明：该命令统计给定文件中的字节数、字数、行数。如果没有给出文件名，则从标准输入读取。wc同时也给出所有指定文件的总统计数。字是由空格字符区分开的最大字符串。</p>
+</blockquote>
+<p>该命令各选项含义如下：</p>
+<ul>
+<li>- c 统计字节数。</li>
+<li>- l 统计行数。</li>
+<li>- w 统计字数。</li>
+</ul>
+<p>这些选项可以组合使用。</p>
+<p>输出列的顺序和数目不受选项的顺序和数目的影响。</p>
+<p>总是按下述顺序显示并且每项最多一列。</p>
+<p>行数、字数、字节数、文件名</p>
+<p>如果命令行中没有文件名，则输出中不出现文件名。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><h4 id="查看某个文件"><a href="#查看某个文件" class="headerlink" title="查看某个文件"></a>查看某个文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Alex@alex:blog(master *)$wc -lcw package.json</div><div class="line">      24      44     618 package.json</div></pre></td></tr></table></figure>
+<h4 id="查看某目录下的所有文件-包括子目录"><a href="#查看某目录下的所有文件-包括子目录" class="headerlink" title="查看某目录下的所有文件(包括子目录)"></a>查看某目录下的所有文件(包括子目录)</h4><h5 id="查看blog-目录下命名后缀是html-文件所有的数量"><a href="#查看blog-目录下命名后缀是html-文件所有的数量" class="headerlink" title="查看blog 目录下命名后缀是html 文件所有的数量"></a>查看blog 目录下命名后缀是html 文件所有的数量</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Alex@alex:blog$find blog/ -name &quot;*.html&quot;|wc -l</div><div class="line">     199</div></pre></td></tr></table></figure>
+<h4 id="目录下所有md文件代码行数"><a href="#目录下所有md文件代码行数" class="headerlink" title="目录下所有md文件代码行数"></a>目录下所有md文件代码行数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">find blog/ -name &quot;*.md&quot; |xargs cat|wc -l</div></pre></td></tr></table></figure>
+<p>或<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wc -l `find ./ -name &quot;*.md&quot;`|tail -n1</div></pre></td></tr></table></figure></p>
+<h4 id="统计当前目录下文件个数"><a href="#统计当前目录下文件个数" class="headerlink" title="统计当前目录下文件个数"></a>统计当前目录下文件个数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -l |grep &quot;^-&quot;|wc -l</div></pre></td></tr></table></figure>
+<h4 id="统计当前文件夹下目录的个数"><a href="#统计当前文件夹下目录的个数" class="headerlink" title="统计当前文件夹下目录的个数"></a>统计当前文件夹下目录的个数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -l |grep &quot;^d&quot;|wc -l</div></pre></td></tr></table></figure>
+<h4 id="统计当前文件夹下文件的个数，包括子文件夹里的"><a href="#统计当前文件夹下文件的个数，包括子文件夹里的" class="headerlink" title="统计当前文件夹下文件的个数，包括子文件夹里的"></a>统计当前文件夹下文件的个数，包括子文件夹里的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -lR|grep &quot;^-&quot;|wc -l</div></pre></td></tr></table></figure>
+<h4 id="统计文件夹下目录的个数，包括子文件夹里的"><a href="#统计文件夹下目录的个数，包括子文件夹里的" class="headerlink" title="统计文件夹下目录的个数，包括子文件夹里的"></a>统计文件夹下目录的个数，包括子文件夹里的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls -lR|grep &quot;^d&quot;|wc -l</div></pre></td></tr></table></figure>
+<h2 id="性能分析工具-TOP命令"><a href="#性能分析工具-TOP命令" class="headerlink" title="性能分析工具 TOP命令"></a>性能分析工具 TOP命令</h2><blockquote>
+<p>TOP命令是Linux下常用的性能分析工具，能够实时显示系统中各个进程的资源占用状况</p>
+</blockquote>
+<p><strong>命令格式：</strong><br>top [-] [d] [p] [q] [c] [C] [S]    [n]</p>
+<p><strong>查看某个用户下的所有进程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">alex@alex-virtual-machine:/mnt/hgfs/gagent/working/demo$ top -u alex</div><div class="line"></div><div class="line">PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND</div><div class="line">2763 alex      20   0 80420  16m  10m S   10  1.6   0:11.69 unity-panel-ser</div><div class="line">2865 alex      20   0 62216 4160 3268 S    6  0.4   0:05.54 hud-service</div><div class="line">2617 alex      20   0  4544 2144  632 S    4  0.2   0:05.30 dbus-daemon</div><div class="line">2646 alex      20   0  134m  12m 9884 S    2  1.2   0:09.35 metacity</div><div class="line">2667 alex      20   0  107m  22m  17m S    2  2.3   0:09.72 unity-2d-panel</div><div class="line">2679 alex      20   0 49608 8884 6936 S    2  0.9   0:02.26 bamfdaemon</div><div class="line">2681 alex      20   0  104m  13m  10m S    2  1.4   0:02.65 nm-apple</div></pre></td></tr></table></figure></p>
+<p><strong>查看单独某个进程</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">alex@alex-virtual-machine:/mnt/hgfs/gagent/working/demo$ ps -a</div><div class="line">  PID TTY          TIME CMD</div><div class="line"> 9463 pts/1    00:00:00 gizwits</div><div class="line"> 9471 pts/2    00:00:00 ps</div><div class="line">alex@alex-virtual-machine:/mnt/hgfs/gagent/working/demo$ top -p 9463</div><div class="line">PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND</div><div class="line">9463 alex      20   0 30424 1152  944 S    2  0.1   0:00.74 gizwits</div></pre></td></tr></table></figure></p>
+<p><strong>说明</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PID</td>
+<td>进程的ID</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td>进程所有者</td>
+</tr>
+<tr>
+<td style="text-align:center">PR</td>
+<td>进程的优先级别，越小越优先被执行</td>
+</tr>
+<tr>
+<td style="text-align:center">NInice</td>
+<td>值</td>
+</tr>
+<tr>
+<td style="text-align:center">VIRT</td>
+<td>进程占用的虚拟内存</td>
+</tr>
+<tr>
+<td style="text-align:center">RES</td>
+<td>进程占用的物理内存</td>
+</tr>
+<tr>
+<td style="text-align:center">SHR</td>
+<td>进程使用的共享内存</td>
+</tr>
+<tr>
+<td style="text-align:center">S</td>
+<td>进程的状态。S表示休眠，R表示正在运行，Z表示僵死状态，N表示该进程优先值为负数</td>
+</tr>
+<tr>
+<td style="text-align:center">%CPU</td>
+<td>进程占用CPU的使用率</td>
+</tr>
+<tr>
+<td style="text-align:center">%MEM</td>
+<td>进程使用的物理内存和总内存的百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">TIME+</td>
+<td>该进程启动后占用的总的CPU时间，即占用CPU使用时间的累加值。</td>
+</tr>
+<tr>
+<td style="text-align:center">COMMAND</td>
+<td>进程启动命令名称</td>
+</tr>
+</tbody>
+</table>
+<h2 id="运行日志输出到终端和保存起来"><a href="#运行日志输出到终端和保存起来" class="headerlink" title="运行日志输出到终端和保存起来"></a>运行日志输出到终端和保存起来</h2><hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 运行targe 目标，且同时把日志输出到终端和保存到文件log.txt</div><div class="line">&gt;&gt;&gt;$ ./targe | tee log.txt</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>你的支持使我不断前进！Enjoy it ? Donate me !</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/1736256-3ba20f6256d1132d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/1736256-6b41a0e538d4aa27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"># 工具</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/Linux之CoreDump/" rel="next" title="Linux之CoreDump">
+                <i class="fa fa-chevron-left"></i> Linux之CoreDump
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/06/Linux之服务安装/" rel="prev" title="Linux之服务安装">
+                Linux之服务安装 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+               alt="Alex.Lin" />
+          <p class="site-author-name" itemprop="name">Alex.Lin</p>
+           
+              <p class="site-description motion-element" itemprop="description">Write the code Change the world</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ilxj" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2011xiaojun" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/3add4c9179b3" target="_blank" title="JianShu">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  JianShu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-vcard"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://upload-images.jianshu.io/upload_images/1736256-4c85a3f42e295e7e.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" title="WeChat">
+                  
+                    <i class="fa fa-fw fa-weixin"></i>
+                  
+                  WeChat
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com/" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://chuangzaoshi.com/" title="创造狮" target="_blank">创造狮</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看机器是多少位"><span class="nav-number">1.</span> <span class="nav-text">查看机器是多少位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一"><span class="nav-number">1.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二"><span class="nav-number">1.2.</span> <span class="nav-text">方法二</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法三"><span class="nav-number">1.3.</span> <span class="nav-text">方法三</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实用命令"><span class="nav-number">2.</span> <span class="nav-text">实用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-代码文件大小、行数、字节数统计"><span class="nav-number">3.</span> <span class="nav-text">Linux 代码文件大小、行数、字节数统计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令解释"><span class="nav-number">3.1.</span> <span class="nav-text">命令解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">3.2.</span> <span class="nav-text">例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看某个文件"><span class="nav-number">3.2.1.</span> <span class="nav-text">查看某个文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看某目录下的所有文件-包括子目录"><span class="nav-number">3.2.2.</span> <span class="nav-text">查看某目录下的所有文件(包括子目录)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#查看blog-目录下命名后缀是html-文件所有的数量"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">查看blog 目录下命名后缀是html 文件所有的数量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#目录下所有md文件代码行数"><span class="nav-number">3.2.3.</span> <span class="nav-text">目录下所有md文件代码行数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计当前目录下文件个数"><span class="nav-number">3.2.4.</span> <span class="nav-text">统计当前目录下文件个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计当前文件夹下目录的个数"><span class="nav-number">3.2.5.</span> <span class="nav-text">统计当前文件夹下目录的个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计当前文件夹下文件的个数，包括子文件夹里的"><span class="nav-number">3.2.6.</span> <span class="nav-text">统计当前文件夹下文件的个数，包括子文件夹里的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#统计文件夹下目录的个数，包括子文件夹里的"><span class="nav-number">3.2.7.</span> <span class="nav-text">统计文件夹下目录的个数，包括子文件夹里的</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能分析工具-TOP命令"><span class="nav-number">4.</span> <span class="nav-text">性能分析工具 TOP命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行日志输出到终端和保存起来"><span class="nav-number">5.</span> <span class="nav-text">运行日志输出到终端和保存起来</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex.Lin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140501"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

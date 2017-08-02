@@ -1,0 +1,1408 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="工具,Linux," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="errno 错误表
+errno 是记录系统的最后一次错误代码。代码是一个int型的值，在errno.h中定义
+
+注意：只有当一个库函数失败时，errno才会被设置。当函数成功运行时，errno的值不会被修改。这意味着我们不能通过测试errno的值来判断是否有错误存在。反之，只有当被调用的函数提示有错误发生时检查errno的值才有意义。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux之errno表">
+<meta property="og:url" content="http://lxj-life.com/2017/06/07/Linux之errno表/index.html">
+<meta property="og:site_name" content="AlexLin">
+<meta property="og:description" content="errno 错误表
+errno 是记录系统的最后一次错误代码。代码是一个int型的值，在errno.h中定义
+
+注意：只有当一个库函数失败时，errno才会被设置。当函数成功运行时，errno的值不会被修改。这意味着我们不能通过测试errno的值来判断是否有错误存在。反之，只有当被调用的函数提示有错误发生时检查errno的值才有意义。">
+<meta property="og:updated_time" content="2017-08-01T16:49:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux之errno表">
+<meta name="twitter:description" content="errno 错误表
+errno 是记录系统的最后一次错误代码。代码是一个int型的值，在errno.h中定义
+
+注意：只有当一个库函数失败时，errno才会被设置。当函数成功运行时，errno的值不会被修改。这意味着我们不能通过测试errno的值来判断是否有错误存在。反之，只有当被调用的函数提示有错误发生时检查errno的值才有意义。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lxj-life.com/2017/06/07/Linux之errno表/"/>
+
+
+
+
+
+  <title> Linux之errno表 | AlexLin </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?32bb077273d902ca71df67ccfe276208";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AlexLin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lxj-life.com/2017/06/07/Linux之errno表/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex.Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlexLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux之errno表
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T00:33:11+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><h1 id="errno-错误表"><a href="#errno-错误表" class="headerlink" title="errno 错误表"></a>errno 错误表</h1><blockquote>
+<p>errno 是记录系统的最后一次<a href="http://baike.baidu.com/item/%E9%94%99%E8%AF%AF%E4%BB%A3%E7%A0%81" target="_blank" rel="external">错误代码</a>。代码是一个int型的值，在errno.h中定义</p>
+</blockquote>
+<p><strong>注意：</strong>只有当一个<a href="http://baike.baidu.com/item/%E5%BA%93%E5%87%BD%E6%95%B0" target="_blank" rel="external">库函数</a>失败时，errno才会被设置。当函数成功运行时，errno的值不会被修改。这意味着我们不能通过测试errno的值来判断是否有错误存在。反之，只有当被调用的函数提示有错误发生时检查errno的值才有意义。</p>
+<a id="more"></a>
+<h2 id="错误表"><a href="#错误表" class="headerlink" title="错误表"></a>错误表</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">错误数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">errno0</td>
+<td>Success</td>
+</tr>
+<tr>
+<td style="text-align:center">errno1</td>
+<td>Operation not permitted</td>
+</tr>
+<tr>
+<td style="text-align:center">errno2</td>
+<td>No such file or directory</td>
+</tr>
+<tr>
+<td style="text-align:center">errno3</td>
+<td>No such process</td>
+</tr>
+<tr>
+<td style="text-align:center">errno4</td>
+<td>Interrupted system call</td>
+</tr>
+<tr>
+<td style="text-align:center">errno5</td>
+<td>Input/output error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno6</td>
+<td>No such device or address</td>
+</tr>
+<tr>
+<td style="text-align:center">errno7</td>
+<td>Argument list too long</td>
+</tr>
+<tr>
+<td style="text-align:center">errno8</td>
+<td>Exec format error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno9</td>
+<td>Bad file descriptor</td>
+</tr>
+<tr>
+<td style="text-align:center">errno10</td>
+<td>No child processe</td>
+</tr>
+<tr>
+<td style="text-align:center">errno11</td>
+<td>Resource temporarily unavailable</td>
+</tr>
+<tr>
+<td style="text-align:center">errno12</td>
+<td>Cannot allocate memory</td>
+</tr>
+<tr>
+<td style="text-align:center">errno13</td>
+<td>Permission denied</td>
+</tr>
+<tr>
+<td style="text-align:center">errno14</td>
+<td>Bad address</td>
+</tr>
+<tr>
+<td style="text-align:center">errno15</td>
+<td>Block device required</td>
+</tr>
+<tr>
+<td style="text-align:center">errno16</td>
+<td>Device or resource busy</td>
+</tr>
+<tr>
+<td style="text-align:center">errno17</td>
+<td>File exists</td>
+</tr>
+<tr>
+<td style="text-align:center">errno18</td>
+<td>Invalid cross-device link</td>
+</tr>
+<tr>
+<td style="text-align:center">errno19</td>
+<td>No such device</td>
+</tr>
+<tr>
+<td style="text-align:center">errno20</td>
+<td>Not a directory</td>
+</tr>
+<tr>
+<td style="text-align:center">errno21</td>
+<td>Is a directory</td>
+</tr>
+<tr>
+<td style="text-align:center">errno22</td>
+<td>Invalid argument</td>
+</tr>
+<tr>
+<td style="text-align:center">errno23</td>
+<td>Too many open files in system</td>
+</tr>
+<tr>
+<td style="text-align:center">errno24</td>
+<td>Too many open files</td>
+</tr>
+<tr>
+<td style="text-align:center">errno25</td>
+<td>Inappropriate ioctl for device</td>
+</tr>
+<tr>
+<td style="text-align:center">errno26</td>
+<td>Text file busy</td>
+</tr>
+<tr>
+<td style="text-align:center">errno27</td>
+<td>File too large</td>
+</tr>
+<tr>
+<td style="text-align:center">errno28</td>
+<td>No space left on device</td>
+</tr>
+<tr>
+<td style="text-align:center">errno29</td>
+<td>Illegal seek</td>
+</tr>
+<tr>
+<td style="text-align:center">errno30</td>
+<td>Read-only file system</td>
+</tr>
+<tr>
+<td style="text-align:center">errno31</td>
+<td>Too many links</td>
+</tr>
+<tr>
+<td style="text-align:center">errno32</td>
+<td>Broken pipe</td>
+</tr>
+<tr>
+<td style="text-align:center">errno33</td>
+<td>Numerical argument out of domain</td>
+</tr>
+<tr>
+<td style="text-align:center">errno34</td>
+<td>Numerical result out of range</td>
+</tr>
+<tr>
+<td style="text-align:center">errno35</td>
+<td>Resource deadlock avoided</td>
+</tr>
+<tr>
+<td style="text-align:center">errno36</td>
+<td>File name too long</td>
+</tr>
+<tr>
+<td style="text-align:center">errno37</td>
+<td>No locks available</td>
+</tr>
+<tr>
+<td style="text-align:center">errno38</td>
+<td>Function not implemented</td>
+</tr>
+<tr>
+<td style="text-align:center">errno39</td>
+<td>Directory not empty</td>
+</tr>
+<tr>
+<td style="text-align:center">errno40</td>
+<td>Too many levels of symbolic links</td>
+</tr>
+<tr>
+<td style="text-align:center">errno41</td>
+<td>Unknown error 41</td>
+</tr>
+<tr>
+<td style="text-align:center">errno42</td>
+<td>No message of desired type</td>
+</tr>
+<tr>
+<td style="text-align:center">errno43</td>
+<td>Identifier removed</td>
+</tr>
+<tr>
+<td style="text-align:center">errno44</td>
+<td>Channel number out of range</td>
+</tr>
+<tr>
+<td style="text-align:center">errno45</td>
+<td>Level 2 not synchronized</td>
+</tr>
+<tr>
+<td style="text-align:center">errno46</td>
+<td>Level 3 halted</td>
+</tr>
+<tr>
+<td style="text-align:center">errno47</td>
+<td>Level 3 reset</td>
+</tr>
+<tr>
+<td style="text-align:center">errno48</td>
+<td>Link number out of range</td>
+</tr>
+<tr>
+<td style="text-align:center">errno49</td>
+<td>Protocol driver not attached</td>
+</tr>
+<tr>
+<td style="text-align:center">errno50</td>
+<td>No CSI structure available</td>
+</tr>
+<tr>
+<td style="text-align:center">errno51</td>
+<td>Level 2 halted</td>
+</tr>
+<tr>
+<td style="text-align:center">errno52</td>
+<td>Invalid exchange</td>
+</tr>
+<tr>
+<td style="text-align:center">errno53</td>
+<td>Invalid request descriptor</td>
+</tr>
+<tr>
+<td style="text-align:center">errno54</td>
+<td>Exchange full</td>
+</tr>
+<tr>
+<td style="text-align:center">errno55</td>
+<td>No anode</td>
+</tr>
+<tr>
+<td style="text-align:center">errno56</td>
+<td>Invalid request code</td>
+</tr>
+<tr>
+<td style="text-align:center">errno57</td>
+<td>Invalid slot</td>
+</tr>
+<tr>
+<td style="text-align:center">errno58</td>
+<td>Unknown error 58</td>
+</tr>
+<tr>
+<td style="text-align:center">errno59</td>
+<td>Bad font file format</td>
+</tr>
+<tr>
+<td style="text-align:center">errno60</td>
+<td>Device not a stream</td>
+</tr>
+<tr>
+<td style="text-align:center">errno61</td>
+<td>No data available</td>
+</tr>
+<tr>
+<td style="text-align:center">errno62</td>
+<td>Timer expired</td>
+</tr>
+<tr>
+<td style="text-align:center">errno63</td>
+<td>Out of streams resources</td>
+</tr>
+<tr>
+<td style="text-align:center">errno64</td>
+<td>Machine is not on the network</td>
+</tr>
+<tr>
+<td style="text-align:center">errno65</td>
+<td>Package not installed</td>
+</tr>
+<tr>
+<td style="text-align:center">errno66</td>
+<td>Object is remote</td>
+</tr>
+<tr>
+<td style="text-align:center">errno67</td>
+<td>Link has been severed</td>
+</tr>
+<tr>
+<td style="text-align:center">errno68</td>
+<td>Advertise error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno69</td>
+<td>Srmount error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno70</td>
+<td>Communication error on send</td>
+</tr>
+<tr>
+<td style="text-align:center">errno71</td>
+<td>Protocol error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno72</td>
+<td>Multihop attempted</td>
+</tr>
+<tr>
+<td style="text-align:center">errno73</td>
+<td>RFS specific error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno74</td>
+<td>Bad message</td>
+</tr>
+<tr>
+<td style="text-align:center">errno75</td>
+<td>Value too large for defined datatype</td>
+</tr>
+<tr>
+<td style="text-align:center">errno76</td>
+<td>Name not unique on network</td>
+</tr>
+<tr>
+<td style="text-align:center">errno77</td>
+<td>File descriptor in bad state</td>
+</tr>
+<tr>
+<td style="text-align:center">errno78</td>
+<td>Remote address changed</td>
+</tr>
+<tr>
+<td style="text-align:center">errno79</td>
+<td>Can not access a needed sharedlibrary</td>
+</tr>
+<tr>
+<td style="text-align:center">errno80</td>
+<td>Accessing a corrupted sharedlibrary</td>
+</tr>
+<tr>
+<td style="text-align:center">errno81</td>
+<td>.lib section in a.out corrupted</td>
+</tr>
+<tr>
+<td style="text-align:center">errno82</td>
+<td>Attempting to link in too manyshared libraries</td>
+</tr>
+<tr>
+<td style="text-align:center">errno83</td>
+<td>Cannot exec a shared librarydirectly</td>
+</tr>
+<tr>
+<td style="text-align:center">errno84</td>
+<td>Invalid or incomplete multibyte orwide character</td>
+</tr>
+<tr>
+<td style="text-align:center">errno85</td>
+<td>Interrupted system call should berestarted</td>
+</tr>
+<tr>
+<td style="text-align:center">errno86</td>
+<td>Streams pipe error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno87</td>
+<td>Too many users</td>
+</tr>
+<tr>
+<td style="text-align:center">errno88</td>
+<td>Socket operation on non-socket</td>
+</tr>
+<tr>
+<td style="text-align:center">errno89</td>
+<td>Destinationaddress required</td>
+</tr>
+<tr>
+<td style="text-align:center">errno90</td>
+<td>Message too long</td>
+</tr>
+<tr>
+<td style="text-align:center">errno91</td>
+<td>Protocol wrong type for socket</td>
+</tr>
+<tr>
+<td style="text-align:center">errno92</td>
+<td>Protocol not available</td>
+</tr>
+<tr>
+<td style="text-align:center">errno93</td>
+<td>Protocol not supported</td>
+</tr>
+<tr>
+<td style="text-align:center">errno94</td>
+<td>Socket type not supported</td>
+</tr>
+<tr>
+<td style="text-align:center">errno95</td>
+<td>Operation not supported</td>
+</tr>
+<tr>
+<td style="text-align:center">errno96</td>
+<td>Protocol family not supported</td>
+</tr>
+<tr>
+<td style="text-align:center">errno97</td>
+<td>Address family not supported byprotocol</td>
+</tr>
+<tr>
+<td style="text-align:center">errno98</td>
+<td>Address already in use</td>
+</tr>
+<tr>
+<td style="text-align:center">errno99</td>
+<td>Cannot assign requested address</td>
+</tr>
+<tr>
+<td style="text-align:center">errno100</td>
+<td>Network is down</td>
+</tr>
+<tr>
+<td style="text-align:center">errno101</td>
+<td>Network is unreachable</td>
+</tr>
+<tr>
+<td style="text-align:center">errno102</td>
+<td>Network dropped connection onreset</td>
+</tr>
+<tr>
+<td style="text-align:center">errno103</td>
+<td>Software caused connection abort</td>
+</tr>
+<tr>
+<td style="text-align:center">errno104</td>
+<td>Connection reset by peer</td>
+</tr>
+<tr>
+<td style="text-align:center">errno105</td>
+<td>No buffer space available</td>
+</tr>
+<tr>
+<td style="text-align:center">errno106</td>
+<td>Transport endpoint is alreadyconnected</td>
+</tr>
+<tr>
+<td style="text-align:center">errno107</td>
+<td>Transport endpoint is notconnected</td>
+</tr>
+<tr>
+<td style="text-align:center">errno108</td>
+<td>Cannot send after transportendpoint shutdown</td>
+</tr>
+<tr>
+<td style="text-align:center">errno109</td>
+<td>Too many references: cannot splice</td>
+</tr>
+<tr>
+<td style="text-align:center">errno110</td>
+<td>Connection timed out</td>
+</tr>
+<tr>
+<td style="text-align:center">errno111</td>
+<td>Connection refused</td>
+</tr>
+<tr>
+<td style="text-align:center">errno112</td>
+<td>Host is down</td>
+</tr>
+<tr>
+<td style="text-align:center">errno113</td>
+<td>No route to host</td>
+</tr>
+<tr>
+<td style="text-align:center">errno114</td>
+<td>Operation already in progress</td>
+</tr>
+<tr>
+<td style="text-align:center">errno115</td>
+<td>Operation now in progress</td>
+</tr>
+<tr>
+<td style="text-align:center">errno116</td>
+<td>Stale NFS file handle</td>
+</tr>
+<tr>
+<td style="text-align:center">errno117</td>
+<td>Structure needs cleaning</td>
+</tr>
+<tr>
+<td style="text-align:center">errno118</td>
+<td>Not a XENIX named type file</td>
+</tr>
+<tr>
+<td style="text-align:center">errno119</td>
+<td>No XENIX semaphores available</td>
+</tr>
+<tr>
+<td style="text-align:center">errno120</td>
+<td>Is a named type file</td>
+</tr>
+<tr>
+<td style="text-align:center">errno121</td>
+<td>Remote I/O error</td>
+</tr>
+<tr>
+<td style="text-align:center">errno122</td>
+<td>Disk quota exceeded</td>
+</tr>
+<tr>
+<td style="text-align:center">errno123</td>
+<td>No medium found</td>
+</tr>
+<tr>
+<td style="text-align:center">errno124</td>
+<td>Wrong medium type</td>
+</tr>
+<tr>
+<td style="text-align:center">errno125</td>
+<td>Operation canceled</td>
+</tr>
+<tr>
+<td style="text-align:center">errno126</td>
+<td>Required key not available</td>
+</tr>
+<tr>
+<td style="text-align:center">errno127</td>
+<td>Key has expired</td>
+</tr>
+<tr>
+<td style="text-align:center">errno128</td>
+<td>Key has been revoked</td>
+</tr>
+<tr>
+<td style="text-align:center">errno129</td>
+<td>Key was rejected by service</td>
+</tr>
+<tr>
+<td style="text-align:center">errno130</td>
+<td>Owner died</td>
+</tr>
+<tr>
+<td style="text-align:center">errno131</td>
+<td>State not recoverable</td>
+</tr>
+<tr>
+<td style="text-align:center">errno132</td>
+<td>Operation not possible due toRF-kill</td>
+</tr>
+<tr>
+<td style="text-align:center">errno133</td>
+<td>Unknown error 133</td>
+</tr>
+<tr>
+<td style="text-align:center">errno134</td>
+<td>Unknown error 134</td>
+</tr>
+<tr>
+<td style="text-align:center">errno135</td>
+<td>Unknown error 135</td>
+</tr>
+<tr>
+<td style="text-align:center">errno136</td>
+<td>Unknown error 136</td>
+</tr>
+<tr>
+<td style="text-align:center">errno137</td>
+<td>Unknown error 137</td>
+</tr>
+<tr>
+<td style="text-align:center">errno138</td>
+<td>Unknown error 138</td>
+</tr>
+<tr>
+<td style="text-align:center">errno139</td>
+<td>Unknown error 139</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>你的支持使我不断前进！Enjoy it ? Donate me !</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/1736256-3ba20f6256d1132d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/1736256-6b41a0e538d4aa27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"># 工具</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/Linux之服务安装/" rel="next" title="Linux之服务安装">
+                <i class="fa fa-chevron-left"></i> Linux之服务安装
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/07/编辑器介绍/" rel="prev" title="编辑器介绍">
+                编辑器介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+               alt="Alex.Lin" />
+          <p class="site-author-name" itemprop="name">Alex.Lin</p>
+           
+              <p class="site-description motion-element" itemprop="description">Write the code Change the world</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ilxj" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2011xiaojun" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/3add4c9179b3" target="_blank" title="JianShu">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  JianShu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-vcard"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://upload-images.jianshu.io/upload_images/1736256-4c85a3f42e295e7e.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" title="WeChat">
+                  
+                    <i class="fa fa-fw fa-weixin"></i>
+                  
+                  WeChat
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com/" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://chuangzaoshi.com/" title="创造狮" target="_blank">创造狮</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#errno-错误表"><span class="nav-number">1.</span> <span class="nav-text">errno 错误表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#错误表"><span class="nav-number">1.1.</span> <span class="nav-text">错误表</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex.Lin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140501"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

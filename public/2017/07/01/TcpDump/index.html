@@ -1,0 +1,1059 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="抓包工具,tcp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Linux 混杂模式设置1. 查看网卡混杂模式状态123456789101112alex@ubuntu:~$ ifconfig eth0eth0      Link encap:Ethernet  HWaddr 00:0c:29:01:02:03          inet addr:10.211.55.3  Bcast:10.211.55.255  Mask:255.255.255.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tcpDump">
+<meta property="og:url" content="http://lxj-life.com/2017/07/01/TcpDump/index.html">
+<meta property="og:site_name" content="AlexLin">
+<meta property="og:description" content="Linux 混杂模式设置1. 查看网卡混杂模式状态123456789101112alex@ubuntu:~$ ifconfig eth0eth0      Link encap:Ethernet  HWaddr 00:0c:29:01:02:03          inet addr:10.211.55.3  Bcast:10.211.55.255  Mask:255.255.255.0">
+<meta property="og:updated_time" content="2017-07-31T15:54:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="tcpDump">
+<meta name="twitter:description" content="Linux 混杂模式设置1. 查看网卡混杂模式状态123456789101112alex@ubuntu:~$ ifconfig eth0eth0      Link encap:Ethernet  HWaddr 00:0c:29:01:02:03          inet addr:10.211.55.3  Bcast:10.211.55.255  Mask:255.255.255.0">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lxj-life.com/2017/07/01/TcpDump/"/>
+
+
+
+
+
+  <title> tcpDump | AlexLin </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?32bb077273d902ca71df67ccfe276208";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">AlexLin</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lxj-life.com/2017/07/01/TcpDump/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Alex.Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="AlexLin">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                tcpDump
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-01T19:05:11+08:00">
+                2017-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/DPlayer.min.js"> </script><script src="/assets/js/APlayer.min.js"> </script><hr>
+<h2 id="Linux-混杂模式设置"><a href="#Linux-混杂模式设置" class="headerlink" title="Linux 混杂模式设置"></a>Linux 混杂模式设置</h2><p><strong>1. 查看网卡混杂模式状态</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">alex@ubuntu:~$ ifconfig eth0</div><div class="line"></div><div class="line">eth0      Link encap:Ethernet  HWaddr 00:0c:29:01:02:03</div><div class="line">          inet addr:10.211.55.3  Bcast:10.211.55.255  Mask:255.255.255.0</div><div class="line">          inet6 addr: fdb2:2c26:f4e4:0:49c8:a8e5:be6:a7f9/64 Scope:Global</div><div class="line">          inet6 addr: fdb2:2c26:f4e4:0:20c:29ff:fe01:203/64 Scope:Global</div><div class="line">          inet6 addr: fe80::20c:29ff:fe01:203/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1735 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:1780 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:1451555 (1.4 MB)  TX bytes:193802 (193.8 KB)</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p><strong>2. 启动混杂模式</strong><br>主要是这个:<strong>PROMISC</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">alex@ubuntu:~$ sudo ifconfig eth0 promisc</div><div class="line">alex@ubuntu:~$ ifconfig eth0</div><div class="line">eth0      Link encap:Ethernet  HWaddr 00:0c:29:01:02:03</div><div class="line">          inet addr:10.211.55.3  Bcast:10.211.55.255  Mask:255.255.255.0</div><div class="line">          inet6 addr: fdb2:2c26:f4e4:0:49c8:a8e5:be6:a7f9/64 Scope:Global</div><div class="line">          inet6 addr: fdb2:2c26:f4e4:0:20c:29ff:fe01:203/64 Scope:Global</div><div class="line">          inet6 addr: fe80::20c:29ff:fe01:203/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING PROMISC MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1742 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:1782 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:1452336 (1.4 MB)  TX bytes:194198 (194.1 KB)</div></pre></td></tr></table></figure></p>
+<p><strong>3. 关闭混杂模式</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">alex@ubuntu:~$ sudo ifconfig eth0 -promisc</div><div class="line">alex@ubuntu:~$ ifconfig eth0</div><div class="line">eth0      Link encap:Ethernet  HWaddr 00:0c:29:01:02:03</div><div class="line">          inet addr:10.211.55.3  Bcast:10.211.55.255  Mask:255.255.255.0</div><div class="line">          inet6 addr: fdb2:2c26:f4e4:0:49c8:a8e5:be6:a7f9/64 Scope:Global</div><div class="line">          inet6 addr: fdb2:2c26:f4e4:0:20c:29ff:fe01:203/64 Scope:Global</div><div class="line">          inet6 addr: fe80::20c:29ff:fe01:203/64 Scope:Link</div><div class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</div><div class="line">          RX packets:1766 errors:0 dropped:0 overruns:0 frame:0</div><div class="line">          TX packets:1796 errors:0 dropped:0 overruns:0 carrier:0</div><div class="line">          collisions:0 txqueuelen:1000</div><div class="line">          RX bytes:1455202 (1.4 MB)  TX bytes:195410 (195.4 KB)</div></pre></td></tr></table></figure></p>
+<h2 id="TcpDump"><a href="#TcpDump" class="headerlink" title="TcpDump"></a>TcpDump</h2><blockquote>
+<ul>
+<li>tcpdump存在于基本的FreeBSD系统中，由于它需要将网络界面设置为混杂模式，普通用户不能正常执行，但具备root权限的用户可以直接执行它来获取网络上的信息。因此系统中存在网络分析工具主要不是对本机安全的威胁，而是对网络上的其他计算机的安全存在威胁。</li>
+<li>显然为了安全起见，不用作网络管理用途的计算机上不应该运行这一类的网络分析软件，为了屏蔽它们，可以屏蔽内核中的bpfilter伪设备。一般情况下网络硬件和TCP/IP堆栈不支持接收或发送与本计算机无关的数据包，为了接收这些数据包，就必须使用网卡的混杂模式，并绕过标准的TCP/IP堆栈才行。在FreeBSD下，这就需要内核支持伪设备bpfilter。因此，在内核中取消bpfilter支持，就能屏蔽tcpdump之类的网络分析工具。</li>
+<li>并且当网卡被设置为混杂模式时，系统会在控制台和日志文件中留下记录，提醒管理员留意这台系统是否被用作攻击同网络的其他计算机的跳板。<h3 id="命令格式"><a href="#命令格式" class="headerlink" title="命令格式"></a>命令格式</h3></li>
+</ul>
+</blockquote>
+<p>tcpdump采用命令行方式，它的命令格式为：<br>    tcpdump [ -adeflnNOpqStvx ] [ -c 数量 ] [ -F 文件名 ]<br>　　　　　　　　　　[ -i 网络接口 ] [ -r 文件名] [ -s snaplen ]<br>　　　　　　　　　　[ -T 类型 ] [ -w 文件名 ] [表达式 ]
+　　　　　　　　　　</p>
+<h3 id="命令参数"><a href="#命令参数" class="headerlink" title="命令参数"></a>命令参数</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">命令字</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-a</td>
+<td>　　　将网络地址和广播地址转变成名字；</td>
+</tr>
+<tr>
+<td style="text-align:center">-d</td>
+<td>　　　将匹配信息包的代码以人们能够理解的汇编格式给出；</td>
+</tr>
+<tr>
+<td style="text-align:center">-dd</td>
+<td>　　 将匹配信息包的代码以c语言程序段的格式给出；</td>
+</tr>
+<tr>
+<td style="text-align:center">-ddd</td>
+<td>将匹配信息包的代码以十进制的形式给出；</td>
+</tr>
+<tr>
+<td style="text-align:center">-e</td>
+<td>　　　在输出行打印出数据链路层的头部信息；</td>
+</tr>
+<tr>
+<td style="text-align:center">-f</td>
+<td>　　　将外部的Internet地址以数字的形式打印出来；</td>
+</tr>
+<tr>
+<td style="text-align:center">-l</td>
+<td>　　　使标准输出变为缓冲行形式；</td>
+</tr>
+<tr>
+<td style="text-align:center">-n</td>
+<td>　　　不把网络地址转换成名字；</td>
+</tr>
+<tr>
+<td style="text-align:center">-t</td>
+<td>　　　在输出的每一行不打印时间戳；</td>
+</tr>
+<tr>
+<td style="text-align:center">-v</td>
+<td>　　　输出一个稍微详细的信息，例如在ip包中可以包括ttl和服务类型的信息；</td>
+</tr>
+<tr>
+<td style="text-align:center">-vv</td>
+<td>　　 输出详细的报文信息；</td>
+</tr>
+<tr>
+<td style="text-align:center">-c</td>
+<td>　　　在收到指定的包的数目后，tcpdump就会停止；</td>
+</tr>
+<tr>
+<td style="text-align:center">-F</td>
+<td>　　　从指定的文件中读取表达式,忽略其它的表达式；</td>
+</tr>
+<tr>
+<td style="text-align:center">-i</td>
+<td>　　　指定监听的网络接口；</td>
+</tr>
+<tr>
+<td style="text-align:center">-r</td>
+<td>　　　从指定的文件中读取包(这些包一般通过-w选项产生)；</td>
+</tr>
+<tr>
+<td style="text-align:center">-w</td>
+<td>　　　直接将包写入文件中，并不分析和打印出来；</td>
+</tr>
+<tr>
+<td style="text-align:center">-T</td>
+<td>　　　将监听到的包直接解释为指定的类型的报文，常见的类型有rpc （远程过程调用）和snmp（简单网络管理协议；）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tcpdump的表达式介绍"><a href="#tcpdump的表达式介绍" class="headerlink" title="tcpdump的表达式介绍"></a>tcpdump的表达式介绍</h3><blockquote>
+<p>表达式是一个正则表达式，tcpdump利用它作为过滤报文的条件，如果一个报文满足表达式的条件，则这个报文将会被捕获。如果没有给出任何条件，则网络上所有的信息包将会被截获。在表达式中一般如下几种类型的关键字。</p>
+</blockquote>
+<h4 id="第一种是关于类型的关键字"><a href="#第一种是关于类型的关键字" class="headerlink" title="第一种是关于类型的关键字"></a>第一种是关于类型的关键字</h4><p>主要包括host，net，port, 例如 host 210.27.48.2，指明210.27.48.2是一台主机，net 202.0.0.0 指明 202.0.0.0是一个网络地址，port 23指明端口号是23。如果没有指定类型，缺省的类型是host.</p>
+<h4 id="第二种是确定传输方向的关键字"><a href="#第二种是确定传输方向的关键字" class="headerlink" title="第二种是确定传输方向的关键字"></a>第二种是确定传输方向的关键字</h4><p>主要包括src , dst ,dst or src, dst and src,这些关键字指明了传输的方向。举例说明，src 210.27.48.2 ,指明ip包中源地址是210.27.48.2 , dst net202.0.0.0 指明目的网络地址是202.0.0.0 。如果没有指明方向关键字，则缺省是src or dst关键字。</p>
+<h4 id="第三种是协议的关键字"><a href="#第三种是协议的关键字" class="headerlink" title="第三种是协议的关键字"></a>第三种是协议的关键字</h4><p>主要包括fddi,ip,arp,rarp,tcp,udp等类型。Fddi指明是在FDDI(分布式光纤数据接口网络)上的特定的网络协议，实际上它是”ether”的别名，fddi和ether具有类似的源地址和目的地址，所以可以将fddi协议包当作ether的包进行处理和分析。其他的几个关键字就是指明了监听的包的协议内容。如果没有指定任何协议，则tcpdump将会监听所有协议的信息包。</p>
+<h4 id="其他关键字"><a href="#其他关键字" class="headerlink" title="其他关键字"></a>其他关键字</h4><p>除了这三种类型的关键字之外，其他重要的关键字如下：gateway,broadcast,less,greater,还有三种逻辑运算，取非运算是 ‘not ‘ ‘! ‘,与运算是’and’,’&amp;&amp;’;或运算 是’or’,’││’；这些关键字可以组合起来构成强大的组合条件来满足人们的需要，下面举几个例子来说明。</p>
+<ul>
+<li><p>A想要截获所有210.27.48.1 的主机收到的和发出的所有的数据包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump host 210.27.48.1</div></pre></td></tr></table></figure>
+</li>
+<li><p>B想要截获主机210.27.48.1 和主机210.27.48.2 或210.27.48.3的通信，使用命令：(在命令行中使用括号时，一定要添加’\’)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump host 210.27.48.1 and \ (210.27.48.2 or 210.27.48.3 \)</div></pre></td></tr></table></figure>
+</li>
+<li><p>C如果想要获取主机210.27.48.1除了和主机210.27.48.2之外所有主机通信的ip包，使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump ip host 210.27.48.1 and ! 210.27.48.2</div></pre></td></tr></table></figure>
+</li>
+<li><p>D如果想要获取主机210.27.48.1接收或发出的telnet包，使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump tcp port 23 host 210.27.48.1</div></pre></td></tr></table></figure>
+</li>
+<li><p>E 对本机的udp 123 端口进行监视 123 为ntp的服务端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># tcpdump udp port 123</div></pre></td></tr></table></figure>
+</li>
+<li><p>F 系统将只对名为hostname的主机的通信数据包进行监视。主机名可以是本地主机，也可以是网络上的任何一台计算机。下面的命令可以读取主机hostname发送的所有数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump -i eth0 src host hostname</div></pre></td></tr></table></figure>
+</li>
+<li><p>G 下面的命令可以监视所有送到主机hostname的数据包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump -i eth0 dst host hostname</div></pre></td></tr></table></figure>
+</li>
+<li><p>H 我们还可以监视通过指定网关的数据包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump -i eth0 gateway Gatewayname</div></pre></td></tr></table></figure>
+</li>
+<li><p>I 如果你还想监视编址到指定端口的TCP或UDP数据包，那么执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump -i eth0 host hostname and port 80</div></pre></td></tr></table></figure>
+</li>
+<li><p>J 如果想要获取主机210.27.48.1除了和主机210.27.48.2之外所有主机通信的ip包，使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump ip host 210.27.48.1 and ! 210.27.48.2</div></pre></td></tr></table></figure>
+</li>
+<li><p>K 想要截获主机210.27.48.1 和主机210.27.48.2 或210.27.48.3的通信，使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump host 210.27.48.1 and \ (210.27.48.2 or 210.27.48.3 \)</div></pre></td></tr></table></figure>
+</li>
+<li><p>L 如果想要获取主机210.27.48.1除了和主机210.27.48.2之外所有主机通信的ip包，使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump ip host 210.27.48.1 and ! 210.27.48.2</div></pre></td></tr></table></figure>
+</li>
+<li><p>M 如果想要获取主机210.27.48.1接收或发出的telnet包，使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump tcp port 23 host 210.27.48.1</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="tcpdump的输出结果介绍"><a href="#tcpdump的输出结果介绍" class="headerlink" title="tcpdump的输出结果介绍"></a>tcpdump的输出结果介绍</h3><p>下面我们介绍几种典型的tcpdump命令的输出信息</p>
+<ul>
+<li>A,数据链路层头信息<br>使用命令:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump --e host ice</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>ice 是一台装有linux的主机，她的MAC地址是0：90：27：58：AF：1A；<br>H219是一台装有SOLARIC的SUN工作站，它的MAC地址是8：0：20：79：5B：46；<br>上一条命令的输出结果如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">21:50:12.847509 eth0 &lt; 8:0:20:79:5b:46 0:90:27:58:af:1a ip 60: h219.33357 &gt; ice.telne</div><div class="line">t 0:0(0) ack 22535 win 8760 (DF)</div></pre></td></tr></table></figure></p>
+<pre><code>分析：21：50：12是显示的时间， 847509是ID号，eth0 &lt;表示从网络接口eth0 接受该数据包，eth0&gt;表示从网络接口设备发送数据包, 8:0:20:79:5b:46是主机H219的MAC地址,它表明是从源地址H219发来的数据包.0:90:27:58:af:1a是主机ICE的MAC地址,表示该数据包的目的地址是ICE . ip 是表明该数据包是IP数据包,60是数据包的长度, h219.33357 &gt; ice.telnet表明该数据包是从主机H219的33357端口发往主机ICE的TELNET(23)端口. ack 22535表明对序列号是222535的包进行响应. win 8760表明发送窗口的大小是8760.
+</code></pre><ul>
+<li>B,ARP包的TCPDUMP输出信息</li>
+</ul>
+<p>使用命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#tcpdump arp</div></pre></td></tr></table></figure></p>
+<p>得到的输出结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">22:32:42.802509 eth0 &gt; arp who-has route tell ice (0:90:27:58:af:1a)</div><div class="line">22:32:42.802902 eth0 &lt; arp reply route is-at 0:90:27:12:10:66 (0:90:27:58:af:1a)</div></pre></td></tr></table></figure></p>
+<pre><code>分析: 22:32:42是时间戳, 802509是ID号, eth0 &gt;表明从主机发出该数据包, arp表明是ARP请求包,who-has route tell ice表明是主机ICE请求主机ROUTE的MAC地址。0:90:27:58:af:1a是主机ICE的MAC地址。
+</code></pre><ul>
+<li>C,TCP包的输出信息</li>
+</ul>
+<p>用TCPDUMP捕获的TCP包的一般输出信息是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">src &gt; dst: flags data-seqno ack window urgent options</div></pre></td></tr></table></figure></p>
+<pre><code>src&gt; dst:表明从源地址到目的地址, flags是TCP包中的标志信息,S 是SYN标志, F (FIN), P (PUSH) , R(RST) &quot;.&quot; (没有标记); data-seqno是数据包中的数据的顺序号, ack是下次期望的顺序号,window是接收缓存的窗口大小, urgent表明数据包中是否有紧急指针. Options是选项.
+</code></pre><ul>
+<li>D,UDP包的输出信息</li>
+</ul>
+<p>用TCPDUMP捕获的UDP包的一般输出信息是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">route.port1 &gt; ice.port2: udp lenth</div></pre></td></tr></table></figure></p>
+<pre><code>UDP十分简单，上面的输出行表明从主机ROUTE的port1端口发出的一个UDP数据包到主机ICE的port2端口，类型是UDP， 包的长度是lenth
+</code></pre><h3 id="辅助工具"><a href="#辅助工具" class="headerlink" title="辅助工具"></a>辅助工具</h3><ul>
+<li><p>想查看TCP或者UDP端口使用情况，使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#netstat -anp</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果有些进程看不见，如只显示”-”，可以尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#sudo netstat -anp</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果想看某个端口的信息，使用lsof命令，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#sudo lsof -i :631</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-bash-3.00# netstat -tln</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -tln #命令是用来查看linux的端口使用情况</div></pre></td></tr></table></figure>
+<ul>
+<li>启动ftp端口<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># /xtc/init.d/vsftp start</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>看文件/etc/services<br>netstat</p>
+<p>查看已经连接的服务端口（ESTABLISHED）</p>
+<ul>
+<li><p>查看所有的服务端口（LISTEN，ESTABLISHED）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -a</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看所有 的服务端口并显示对应的服务程序名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo netstat -ap</div></pre></td></tr></table></figure>
+</li>
+<li><p>nmap ＜扫描类型＞＜扫描参数＞<br>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#nmap localhost</div><div class="line">#nmap -p 1024-65535 localhost</div><div class="line">#nmap -PT 192.168.1.127-245</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>当我们使用　netstat -apn　查看网络连接的时候，会发现很多类似下面的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name</div><div class="line"></div><div class="line">tcp 0 52 218.104.81.152：7710 211.100.39.250：29488 ESTABLISHED 6111/1</div></pre></td></tr></table></figure></p>
+<p>显示这台服务器开放了7710端口，那么 这个端口属于哪个程序呢？我们可以使用　<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lsof -i ：7710</div></pre></td></tr></table></figure></p>
+<p>命令来查询：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">COMMAND PID USER FD TYPE DEVICE SIZE NODE NAME</div><div class="line"></div><div class="line">sshd 1990 root 3u IPv4 4836 TCP *：7710 （LISTEN）</div></pre></td></tr></table></figure></p>
+<pre><code>这样，我们就知道了7710端口是属于sshd程序的。
+</code></pre><ul>
+<li>运行tcpdump命令出现错误信息排除<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tcpdump: no suitable device found</div><div class="line">tcpdump: no devices found /dev/bpf4: A file or directory in the path name does not exist.</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>解决方案 2种原因：<br>1.权限不够，一般不经过处理，只用root用户能使用tcpdump<br>2.缺省只能同时使用4个tcpdump，如用完，则报此类错。需要停掉多余的tcpdump</p>
+<h3 id="Ubuntu系统日志配置-var-log-messages"><a href="#Ubuntu系统日志配置-var-log-messages" class="headerlink" title="Ubuntu系统日志配置 /var/log/messages"></a>Ubuntu系统日志配置 /var/log/messages</h3><ol>
+<li>问题描述<br>　　今天需要查看Ubuntu系统的日志文件，但却没有找到/var/log/messages这个文件。网上搜素资料，说是要配置/etc/syslog.conf。syslog采用可配置的、统一的系统登记程序，随时从系统各处接受log请求，然后根据/etc/syslog.conf中的预先设定把log信息写入相应文件中、邮寄给特 定用户或者直接以消息的方式发往控制台。</li>
+</ol>
+<p>　　好吧，问题又来了。系统中依然没有/etc/syslog.conf，经过一番搜素，最后得到的结论是：在Ubuntu下对应的应该是/etc/rsyslog.conf和rsyslogd。</p>
+<ol>
+<li>解决方案<br>　　关于syslog.conf文件和syslog.d下文件功能解释可以参考下面这篇文章：<br>　　<a href="http://www.linuxidc.com/Linux/2012-03/56434.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2012-03/56434.htm</a><br>　　通过查看rsyslog.conf文件，发现所有的配置文件都在/etc/rsyslog.d/文件夹下。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"># /etc/rsyslog.conf Configuration file for rsyslog.</div><div class="line">#</div><div class="line"># For more information see</div><div class="line"># /usr/share/doc/rsyslog-doc/html/rsyslog_conf.html</div><div class="line">#</div><div class="line"># Default logging rules can be found in /etc/rsyslog.d/50-default.conf</div><div class="line">… …</div><div class="line">#</div><div class="line"># Include all config files in /etc/rsyslog.d/</div><div class="line">#</div><div class="line">$IncludeConfig /etc/rsyslog.d/*.conf</div></pre></td></tr></table></figure>
+<p>用vim打开/etc/rsyslog.d/50-default.conf文件增加一行内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">*.info;mail.none;authpriv.none;cron.none /var/log/messages</div></pre></td></tr></table></figure>
+<p><a href="http://www.cnblogs.com/yc_sunniwell/archive/2010/07/05/1771563.html" target="_blank" rel="external">原文</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>你的支持使我不断前进！Enjoy it ? Donate me !</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/1736256-3ba20f6256d1132d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/1736256-6b41a0e538d4aa27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Alex.Lin Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/抓包工具/" rel="tag"># 抓包工具</a>
+          
+            <a href="/tags/tcp/" rel="tag"># tcp</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/Linux之Socket关键/" rel="next" title="Linux之Socket关键">
+                <i class="fa fa-chevron-left"></i> Linux之Socket关键
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/01/WireShark 网络抓包/" rel="prev" title="WireShark网络抓包">
+                WireShark网络抓包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="uyan_frame"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://upload-images.jianshu.io/upload_images/1736256-0345dfb2d5302036.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"
+               alt="Alex.Lin" />
+          <p class="site-author-name" itemprop="name">Alex.Lin</p>
+           
+              <p class="site-description motion-element" itemprop="description">Write the code Change the world</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ilxj" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2011xiaojun" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/3add4c9179b3" target="_blank" title="JianShu">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  JianShu
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-vcard"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="878329009" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://upload-images.jianshu.io/upload_images/1736256-4c85a3f42e295e7e.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" title="WeChat">
+                  
+                    <i class="fa fa-fw fa-weixin"></i>
+                  
+                  WeChat
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.baidu.com/" title="百度" target="_blank">百度</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://chuangzaoshi.com/" title="创造狮" target="_blank">创造狮</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-混杂模式设置"><span class="nav-number">1.</span> <span class="nav-text">Linux 混杂模式设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TcpDump"><span class="nav-number">2.</span> <span class="nav-text">TcpDump</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#命令格式"><span class="nav-number">2.1.</span> <span class="nav-text">命令格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令参数"><span class="nav-number">2.2.</span> <span class="nav-text">命令参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump的表达式介绍"><span class="nav-number">2.3.</span> <span class="nav-text">tcpdump的表达式介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一种是关于类型的关键字"><span class="nav-number">2.3.1.</span> <span class="nav-text">第一种是关于类型的关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二种是确定传输方向的关键字"><span class="nav-number">2.3.2.</span> <span class="nav-text">第二种是确定传输方向的关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三种是协议的关键字"><span class="nav-number">2.3.3.</span> <span class="nav-text">第三种是协议的关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他关键字"><span class="nav-number">2.3.4.</span> <span class="nav-text">其他关键字</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tcpdump的输出结果介绍"><span class="nav-number">2.4.</span> <span class="nav-text">tcpdump的输出结果介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#辅助工具"><span class="nav-number">2.5.</span> <span class="nav-text">辅助工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu系统日志配置-var-log-messages"><span class="nav-number">2.6.</span> <span class="nav-text">Ubuntu系统日志配置 /var/log/messages</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex.Lin</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    
+
+    
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2140501"></script>
+      <!-- UY END -->
+    
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
